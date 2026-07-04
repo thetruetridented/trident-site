@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="disguiser is a lightweight web tool for swapping visible fabric mod jar metadata with a modrinth project name, description, and icon.">
+    <title>disguiser</title>
+    <link rel="icon" type="image/png" href="images/dvd.png">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="theme-disguiser">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="tool-hero">
+        <div class="tool-shell">
+          <div class="tool-copy">
+            <h1>disguiser</h1>
+            <p>Convert the name, description, and icon of a mod to resemble any other mod in existence. Modrinth &amp; fabric/quilt only!</p>
+          </div>
+
+          <form id="disguiser-form" class="disguiser-form">
+            <label class="tool-field">
+              <span>fabric mod jar</span>
+              <input id="jar" name="jar" type="file" accept=".jar" required>
+            </label>
+
+            <label class="tool-field">
+              <span class="modrinth-label">
+                <img src="images/disguiser-modrinth.svg" alt="">
+                modrinth link or slug
+              </span>
+              <input
+                id="modrinthUrl"
+                name="modrinthUrl"
+                type="text"
+                value="https://modrinth.com/mod/sodium"
+                autocomplete="off"
+                required>
+            </label>
+
+            <button id="disguiser-submit" class="tool-submit" type="submit">
+              <span id="disguiser-button-text">create disguised jar</span>
+            </button>
+
+            <p id="disguiser-status" class="tool-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="overview-section tool-overview">
+        <div class="overview-copy">
+          <h2>quick &amp; simple</h2>
+          <p>upload a fabric jar, paste a modrinth project link, and download a jar with the visible name, description, and icon replaced. internal ids, entrypoints, mixins, and class names stay untouched.</p>
+        </div>
+        <div class="tool-steps">
+          <article>
+            <h3>1</h3>
+            <p>choose the jar you want to edit.</p>
+          </article>
+          <article>
+            <h3>2</h3>
+            <p>paste a modrinth link like sodium.</p>
+          </article>
+          <article>
+            <h3>3</h3>
+            <p>download the rebuilt jar.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <audio id="disguiser-sound" preload="auto" src="images/3d.mp3"></audio>
+    <script src="disguiser.js"></script>
+  </body>
+</html>
