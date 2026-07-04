@@ -46,6 +46,10 @@
   color: black;
 }
 
+.theme-disguiser.is-inverted .site-main {
+  filter: invert(1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -650,11 +654,31 @@ body {
   padding: 8px 12px;
 }
 
+.tool-field input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  border: 0;
+  padding: 8px 16px;
+  background: black;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.tool-field input[type="file"]::-webkit-file-upload-button {
+  margin-right: 12px;
+  border: 0;
+  padding: 8px 16px;
+  background: black;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
 .tool-submit {
   min-height: 54px;
   border: 0;
-  background: var(--accent);
-  color: black;
+  background: black;
+  color: white;
   cursor: pointer;
   font: inherit;
   font-size: 24px;

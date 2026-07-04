@@ -8,6 +8,7 @@ const sound = document.querySelector("#disguiser-sound");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   playClickSound();
+  document.body.classList.add("is-inverted");
   submit.classList.add("is-rainbow");
   setBusy(true, "uploading...");
 
@@ -36,7 +37,7 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     statusText.textContent = error.message || "could not create disguised jar.";
   } finally {
-    setBusy(false, "create disguised jar");
+    setBusy(false, "DISGUISE");
   }
 });
 
