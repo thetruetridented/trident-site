@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Macecore</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="theme-mace">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="hero">
+        <a class="core-arrow core-arrow-left" href="spearcore.html" aria-label="Previous core">
+          <img src="images/leftarrow.png" alt="">
+        </a>
+        <a class="core-arrow core-arrow-right" href="cartcore.html" aria-label="Next core">
+          <img src="images/rightarrow.png" alt="">
+        </a>
+        <div class="hero-content">
+          <div class="icon-layer">
+            <img class="site-icon" src="images/maceicon.png" alt="">
+            <div class="core-copy">
+              <h1>macecore</h1>
+              <p>get the free version here</p>
+              <div class="version-actions">
+                <a class="version-button version-button-primary" href="https://drive.google.com/uc?export=download&amp;id=1MmC26ng4XbxtQsH1c6uPHheNlBeTKKZb">26.2</a>
+                <button type="button" class="version-button">1.21.11</button>
+              </div>
+              <a class="full-version-link" href="https://www.patreon.com/c/thetruetrident">
+                <img src="images/patreon-icon.png" alt="">
+                <span>Get the FULL VERSION on Patreon</span>
+              </a>
+              <a class="more-versions" href="#downloads">SEE ALL VERSIONS</a>
+            </div>
+          </div>
+          <div class="requirement-note">
+            <img src="images/Sprite-344001.png" alt="">
+            <p>Requires <a href="https://modrinth.com/mod/fzzy-config">Fzzy Config</a> &amp; <a href="https://modrinth.com/mod/modmenu">Mod Menu</a> for configuration</p>
+          </div>
+        </div>
+        <video id="corebg" autoplay muted loop playsinline src="images/mace.mp4"></video>
+      </section>
+
+      <section class="overview-section">
+        <div class="video-panel">
+          <iframe
+            width="1488"
+            height="837"
+            src="https://www.youtube.com/embed/p2ahumw7cuU"
+            title="macecore showcase"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="overview-copy">
+          <h2>simple &amp; lightweight</h2>
+          <p>This is a clientside utility mod for mace combat that helps you use the mace and related items to their full potential without rattling your brain to the core. The free version is singleplayer-focused unless you get the full Patreon version.</p>
+        </div>
+      </section>
+
+      <section class="details-section">
+        <div class="notice-grid">
+          <div class="serverside-feature">
+            <h2>WANT MORE?</h2>
+            <p>If installed serverside, this mod acts as its own anti-cheat and searches for macecore:macecore-rep to remove you from the server. The packet is not present if you compile from source or get it from Patreon.</p>
+            <p class="patreon-emphasis">The 1.21.4 and 1.21.1 versions are Patreon-exclusive, along with in dev and exclusive features.</p>
+            <a class="patreon-link" href="https://www.patreon.com/c/thetruetrident">Patreon</a>
+          </div>
+        </div>
+
+        <div class="feature-showcase">
+          <div class="section-heading">
+            <p>entirely configurable</p>
+            <h2>features</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Pearl Catching</h3>
+              <p>Works while aiming diagonally and is designed around fast midair mace setups.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Shield Slamming</h3>
+              <p>Disable a shield into a mace hit while midair for cleaner mace pressure.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Sword &amp; Axe Swapping</h3>
+              <p>Dynamically chooses which mace to use for attribute swapping based on position and velocity.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Lock-on Assist</h3>
+              <p>A soft aim assist that can be fully configured.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Shield Draining</h3>
+              <p>Uses mace timing to destroy shield durability when an opponent is blocking.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Tick Variance</h3>
+              <p>Most features include configurable tick variance to minimize detection patterns.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="server-guide">
+          <div class="section-heading">
+            <p>recommended settings as of August 23, 2025</p>
+            <h2>TESTED ON SERVERS</h2>
+          </div>
+          <p class="server-note">If this list is inaccurate, warn others in the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a>. Spam clicking while using these may create duplicate packets.</p>
+          <div class="server-columns">
+            <article>
+              <h3>MCPVP</h3>
+              <ul>
+                <li>Sword Swapping</li>
+                <li>Axe Swapping</li>
+                <li>Pearl Catching - <span class="high-risk">high risk</span></li>
+                <li>Shield Slamming</li>
+                <li>Shield Draining</li>
+                <li>Lock Assist</li>
+              </ul>
+            </article>
+            <article>
+              <h3>CatPVP</h3>
+              <ul>
+                <li>Sword Swapping</li>
+                <li>Axe Swapping</li>
+                <li>Lock Assist - <span class="high-risk">high risk</span></li>
+                <li>Pearl Catching</li>
+                <li>Shield Slamming - <span class="high-risk">high risk</span></li>
+              </ul>
+            </article>
+            <article>
+              <h3>Flamefrags</h3>
+              <ul>
+                <li>Sword Swapping</li>
+                <li>Axe Swapping</li>
+                <li>Pearl Catching</li>
+                <li>Shield Slamming</li>
+                <li>Sound Effects</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Minemen</h3>
+              <ul>
+                <li>Sword Swapping</li>
+                <li>Axe Swapping</li>
+                <li>Pearl Catching - <span class="high-risk">high risk</span></li>
+                <li>Shield Slamming - <span class="high-risk">high risk</span></li>
+                <li>Lock Assist - <span class="high-risk">high risk</span></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <section id="downloads" class="downloads-section">
+          <div class="section-heading">
+            <p>quick downloads</p>
+            <h2>downloads</h2>
+          </div>
+          <div class="download-grid">
+            <article class="download-card">
+              <h3>Macecore 26.2</h3>
+              <p>Free nonpremium JAR</p>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1MmC26ng4XbxtQsH1c6uPHheNlBeTKKZb">Download JAR</a>
+            </article>
+            <article class="download-card download-card-disabled">
+              <h3>Macecore 1.21.11</h3>
+              <p>Not available yet</p>
+              <button type="button" class="download-link" disabled>Unavailable</button>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trident Site</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="theme-crystal">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+
+
+    </header>
+
+    <main class="site-main">
+      <section class="hero">
+        <a class="core-arrow core-arrow-left" href="cartcore.html" aria-label="Previous core">
+          <img src="images/leftarrow.png" alt="">
+        </a>
+        <a class="core-arrow core-arrow-right" href="spearcore.html" aria-label="Next core">
+          <img src="images/rightarrow.png" alt="">
+        </a>
+        <div class="hero-content">
+          <div class="icon-layer">
+            <img class="site-icon" src="images/icon.png" alt="">
+            <div class="core-copy">
+              <h1>crystalcore</h1>
+              <p>get the free version here</p>
+              <div class="version-actions">
+                <a class="version-button version-button-primary" href="https://drive.google.com/uc?export=download&amp;id=1q3w-6hB-L0r--iylwP93mUV4wOfIsrFg">26.2</a>
+                <button type="button" class="version-button">1.21.11</button>
+              </div>
+              <a class="full-version-link" href="https://www.patreon.com/c/thetruetrident">
+                <img src="images/patreon-icon.png" alt="">
+                <span>Get the FULL VERSION on Patreon</span>
+              </a>
+              <a class="more-versions" href="#downloads">SEE ALL VERSIONS</a>
+            </div>
+          </div>
+          <div class="requirement-note">
+            <img src="images/Sprite-344001.png" alt="">
+            <p>Requires <a href="https://modrinth.com/mod/fzzy-config">Fzzy Config</a> &amp; <a href="https://modrinth.com/mod/modmenu">Mod Menu</a> for configuration</p>
+          </div>
+        </div>
+        <video id="corebg" autoplay muted loop playsinline src="images/crystal.mp4"></video>
+      </section>
+
+      <section class="overview-section">
+        <div class="video-panel">
+          <iframe
+            width="1488"
+            height="837"
+            src="https://www.youtube.com/embed/yMkBk0UKcw8"
+            title="crystalcore | release trailer"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="overview-copy">
+          <h2>simple &amp; lightweight</h2>
+          <p>This is a clientside utility mod for Crystal PVP/Combat as well as Anchor PVP, that allows you to use crystals and anchors to their full potential without the hassle of rattling your brain to the core.</p>
+        </div>
+      </section>
+
+      <section class="details-section">
+        <div class="notice-grid">
+          <div class="serverside-feature">
+            <h2>WANT MORE?</h2>
+            <p>If installed serverside, this mod acts as its own anti-cheat and searches for its own packet, crystalcore:crystalcore-rep, to remove you from the server. This packet will not be present if you compile the mod from source or get it from my Patreon.</p>
+            <p class="patreon-emphasis">You also get access to in dev features and exclusive features from the Patreon.</p>
+            <a class="patreon-link" href="https://www.patreon.com/c/thetruetrident">Patreon</a>
+          </div>
+        </div>
+
+        <div class="feature-showcase">
+          <div class="section-heading">
+            <p>entirely configurable</p>
+            <h2 class="features-title">features</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>TriTotem / Totem Gaze</h3>
+              <p>One of the first autototems to actually open your inventory, move your cursor towards a totem, then equip it. Speed and other factors can be modified in the config.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Crystal Flick Assist</h3>
+              <p>After a full knockback hit with obsidian and end crystals in your hotbar, a nearby placeable block is found and your aim is slightly shifted to help place quick obsidian and crystal.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Anchor Flick Assist</h3>
+              <p>When you charge a respawn anchor past minimum capacity, your viewpoint flicks down to help place protection, then back up again to destroy the anchor. Speed is configurable.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Crystal Breaker</h3>
+              <p>While holding right click, end crystals are automatically destroyed as soon as they enter your crosshair, unless you are above the crystal or at feet level to it.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Right-drag</h3>
+              <p>Holding right click with specific blocks, such as glowstone or obsidian, simulates a packet-accurate drag click and pairs well with the flick assists.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Intuitive Sound Effects</h3>
+              <p>Custom vanilla-based sound effects play when crystal tech is performed, and the explosion sound is reworked to be less harsh. It can be changed back in config.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Tick Variance</h3>
+              <p>Configure tick randomness for most features. It is on by default and intended to avoid macro detection.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="server-guide">
+          <div class="section-heading">
+            <p>recommended settings as of August 24, 2025</p>
+            <h2>TESTED ON SERVERS</h2>
+          </div>
+          <p class="server-note">If this list is inaccurate, warn others in the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a>. Spam clicking while using these may create duplicate packets, which can be easily detected.</p>
+          <div class="server-columns">
+            <article>
+              <h3>Minemen</h3>
+              <ul>
+                <li>Totem Gaze / TriTotem</li>
+                <li>Anchor Flick Assist</li>
+                <li>Crystal Flick Assist</li>
+                <li>dragR</li>
+                <li>Click Crystal - <span class="high-risk">high risk</span></li>
+                <li>anti Shielding</li>
+                <li>D-tap Protection</li>
+                <li>Crystal Icer</li>
+              </ul>
+            </article>
+            <article>
+              <h3>MCPVP</h3>
+              <ul>
+                <li>Totem Gaze / TriTotem</li>
+                <li>Anchor Flick Assist</li>
+                <li>Crystal Flick Assist</li>
+                <li>dragR</li>
+                <li>anti Shielding</li>
+                <li>D-tap Protection</li>
+                <li>Crystal Icer</li>
+              </ul>
+            </article>
+            <article>
+              <h3>CatPVP</h3>
+              <ul>
+                <li>Totem Gaze / TriTotem</li>
+                <li>Anchor Flick Assist</li>
+                <li>Crystal Flick Assist</li>
+                <li>dragR</li>
+                <li>anti Shielding</li>
+                <li>D-tap Protection</li>
+                <li>Crystal Icer</li>
+              </ul>
+            </article>
+            <article class="risk-card">
+              <h3>Anything else</h3>
+              <p><span class="high-risk">High risk</span> as of the current patch.</p>
+            </article>
+          </div>
+        </div>
+
+        <section id="downloads" class="downloads-section">
+          <div class="section-heading">
+            <p>quick downloads</p>
+            <h2>downloads</h2>
+          </div>
+          <div class="download-grid">
+            <article class="download-card">
+              <h3>Crystalcore 26.2</h3>
+              <p>Free nonpremium JAR</p>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1q3w-6hB-L0r--iylwP93mUV4wOfIsrFg">Download JAR</a>
+            </article>
+            <article class="download-card download-card-disabled">
+              <h3>Crystalcore 1.21.11</h3>
+              <p>Not available yet</p>
+              <button type="button" class="download-link" disabled>Unavailable</button>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+    </footer>
+  </body>
+</html>
