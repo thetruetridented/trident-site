@@ -50,6 +50,14 @@
   filter: invert(1);
 }
 
+.theme-moneymatch {
+  --accent: #ffffff;
+  --accent-shift: #ffb3bd;
+  --arrow-hover-filter: brightness(0) saturate(100%) invert(79%) sepia(58%) saturate(546%) hue-rotate(103deg) brightness(94%) contrast(91%);
+  background: #c90016;
+  color: white;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -730,6 +738,212 @@ body {
   overflow-wrap: anywhere;
 }
 
+.moneymatch-hero {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 72px 7vw 88px;
+  background: #c90016;
+  color: white;
+}
+
+.moneymatch-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 34px;
+  align-items: start;
+  width: min(860px, 100%);
+}
+
+.moneymatch-copy {
+  text-align: center;
+}
+
+.moneymatch-copy p,
+.moneymatch-copy h1 {
+  margin: 0;
+}
+
+.moneymatch-copy p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.moneymatch-copy h1 {
+  color: white;
+  font-size: 104px;
+  line-height: 0.86;
+}
+
+.match-state {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  margin-top: 18px;
+  padding: 7px 12px;
+  background: white;
+  color: #c90016;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.checkout-panel {
+  display: grid;
+  gap: 18px;
+  padding: 26px;
+  background: black;
+  color: white;
+}
+
+.checkout-panel .tool-field span {
+  color: white;
+}
+
+.checkout-panel .tool-field input {
+  background: #15191d;
+  color: white;
+}
+
+.match-id-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.7fr) 132px;
+  gap: 14px;
+  align-items: end;
+}
+
+.checkout-load {
+  min-height: 48px;
+  background: var(--accent);
+  color: #c90016;
+}
+
+.match-summary,
+.money-breakdown {
+  display: grid;
+  gap: 12px;
+}
+
+.match-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.money-breakdown {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.match-summary div,
+.money-breakdown div {
+  min-width: 0;
+  padding: 14px;
+  background: #15191d;
+}
+
+.match-summary span,
+.money-breakdown span {
+  display: block;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.match-summary strong,
+.money-breakdown strong {
+  display: block;
+  margin-top: 8px;
+  color: white;
+  font-size: 26px;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.money-breakdown strong {
+  color: var(--accent);
+}
+
+.payment-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 12px;
+}
+
+.paypal-button,
+.secondary-button {
+  min-height: 56px;
+  border: 0;
+  font: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.paypal-button {
+  background: var(--accent);
+  color: #c90016;
+}
+
+.secondary-button {
+  background: white;
+  color: black;
+}
+
+.paypal-button:disabled,
+.secondary-button:disabled,
+.checkout-load:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.checkout-panel .tool-status {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.moneymatch-overview .tool-steps article {
+  background: #970010;
+}
+
+.moneymatch-overview .tool-steps p {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.moneymatch-overview {
+  background: #c90016;
+  color: white;
+}
+
+.moneymatch-overview .overview-copy h2,
+.moneymatch-overview .tool-steps h3 {
+  color: white;
+}
+
+.moneymatch-overview .overview-copy p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.match-etiquette {
+  padding: 72px 7vw 96px;
+  background: #c90016;
+  color: white;
+}
+
+.match-etiquette h2,
+.match-etiquette p {
+  margin: 0;
+}
+
+.match-etiquette h2 {
+  font-size: 72px;
+  line-height: 0.9;
+}
+
+.match-etiquette p {
+  max-width: 980px;
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 24px;
+  line-height: 1.35;
+}
+
 .tool-overview {
   align-items: stretch;
 }
@@ -886,5 +1100,45 @@ body {
 
   .disguiser-form {
     padding: 20px;
+  }
+
+  .moneymatch-hero {
+    padding: 56px 24px 72px;
+  }
+
+  .moneymatch-shell,
+  .match-summary,
+  .money-breakdown,
+  .payment-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .moneymatch-shell {
+    gap: 28px;
+  }
+
+  .moneymatch-copy {
+    text-align: center;
+  }
+
+  .moneymatch-copy p {
+    font-size: 22px;
+  }
+
+  .moneymatch-copy h1 {
+    font-size: 64px;
+  }
+
+  .checkout-panel {
+    padding: 20px;
+  }
+
+  .match-id-row {
+    grid-template-columns: 1fr;
+  }
+
+  .match-summary strong,
+  .money-breakdown strong {
+    font-size: 24px;
   }
 }

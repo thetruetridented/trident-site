@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="secure MoneyMatch payment page for Tribot matches.">
+    <title>moneymatch</title>
+    <link rel="icon" type="image/png" href="images/dvd.png">
+    <link rel="stylesheet" href="styles.css?v=20260706-2">
+  </head>
+  <body class="theme-moneymatch">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="moneymatch-hero">
+        <div class="moneymatch-shell">
+          <div class="moneymatch-copy">
+            <p>tribot payments</p>
+            <h1>moneymatch</h1>
+            <span id="match-state" class="match-state">awaiting match</span>
+          </div>
+
+          <section class="checkout-panel" aria-label="MoneyMatch checkout">
+            <div class="match-id-row">
+              <label class="tool-field">
+                <span>match id</span>
+                <input id="match-id" name="match-id" type="text" autocomplete="off" placeholder="MM-..." required>
+              </label>
+              <label class="tool-field">
+                <span>discord id</span>
+                <input id="player-id" name="player-id" type="text" autocomplete="off" placeholder="your id" required>
+              </label>
+              <button id="load-match" class="tool-submit checkout-load" type="button">LOAD</button>
+            </div>
+
+            <div class="match-summary">
+              <div>
+                <span>player one</span>
+                <strong id="player-one">waiting</strong>
+              </div>
+              <div>
+                <span>player two</span>
+                <strong id="player-two">waiting</strong>
+              </div>
+            </div>
+
+            <div class="money-breakdown" aria-label="Payment breakdown">
+              <div>
+                <span>each player pays</span>
+                <strong id="stake">$0.00</strong>
+              </div>
+              <div>
+                <span>total pot</span>
+                <strong id="pot">$0.00</strong>
+              </div>
+              <div>
+                <span>bot fee</span>
+                <strong id="fee">2% / $0.00</strong>
+              </div>
+              <div>
+                <span>winner payout</span>
+                <strong id="payout">$0.00</strong>
+              </div>
+            </div>
+
+            <div class="payment-actions">
+              <button id="paypal-button" class="paypal-button" type="button" disabled>CONTINUE TO PAYPAL</button>
+              <button id="refresh-status" class="secondary-button" type="button" disabled>REFRESH STATUS</button>
+            </div>
+
+            <p id="checkout-status" class="tool-status" role="status" aria-live="polite">
+              paste the match id from discord to begin.
+            </p>
+          </section>
+        </div>
+      </section>
+
+      <section class="overview-section moneymatch-overview">
+        <div class="overview-copy">
+          <h2>clear before checkout</h2>
+          <p>both players pay the same match amount through PayPal. after both payments are captured, the match can be played and both players report the winner in discord. the winner receives the pot after the 2% bot fee.</p>
+        </div>
+        <div class="tool-steps">
+          <article>
+            <h3>1</h3>
+            <p>create the match with tribot.</p>
+          </article>
+          <article>
+            <h3>2</h3>
+            <p>pay through the secure checkout link.</p>
+          </article>
+          <article>
+            <h3>3</h3>
+            <p>confirm the winner in discord.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="match-etiquette">
+        <h2>MATCH ETIQUETTE</h2>
+        <p>All matches must be played in Tournament 1v1s, tournament seeds apply to striking (if possible)</p>
+      </section>
+    </main>
+
+    <script src="moneymatch.js?v=20260706-1"></script>
+  </body>
+</html>
