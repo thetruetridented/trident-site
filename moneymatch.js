@@ -120,12 +120,47 @@ async function loadMatch() {
     const match = await fetchMatch(matchId);
     renderMatch(match);
     setStatus("match loaded. continue to paypal when you are ready.");
+    return match;
   } catch (error) {
     const preview = buildPreviewMatch(matchId);
     renderMatch(preview);
     setStatus("frontend ready. backend lookup is not connected yet, so checkout is disabled for now.");
+    return preview;
   } finally {
     setLoading(false);
+  }
+}
+
+async function captureApprovedPayment() {
+  const matchId = elements.matchId.value.trim();
+  const playerId = elements.playerId.value.trim();
+
+  if (!matchId || !playerId) {
+    setStatus("missing match id or discord id for paypal capture.");
+    return;
+  }
+
+  setStatus("capturing approved paypal payment...");
+
+  try {
+    const response = await fetch(`${API_BASE}/${encodeURIComponent(matchId)}/capture`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ playerId })
+    });
+
+    if (!response.ok) throw new Error(await readApiError(response));
+
+    const data = await response.json();
+    renderMatch(data.match);
+    setStatus(data.match.status === "FUNDED"
+      ? "payment captured. both players are funded."
+      : "payment captured. waiting for the other player.");
+  } catch (error) {
+    setStatus(error.message || "paypal capture could not be completed.");
   }
 }
 
@@ -166,6 +201,7 @@ async function startPaypalCheckout() {
 const params = new URLSearchParams(window.location.search);
 const initialMatchId = params.get("matchId") || params.get("match-id");
 const initialPlayerId = params.get("playerId") || params.get("player-id");
+const shouldCapture = params.get("capture") === "true";
 
 if (initialPlayerId) {
   elements.playerId.value = initialPlayerId;
@@ -173,7 +209,9 @@ if (initialPlayerId) {
 
 if (initialMatchId) {
   elements.matchId.value = initialMatchId;
-  loadMatch();
+  loadMatch().then(() => {
+    if (shouldCapture) captureApprovedPayment();
+  });
 }
 
 elements.loadMatch.addEventListener("click", loadMatch);
@@ -191,3 +229,13 @@ elements.playerId.addEventListener("keydown", event => {
     loadMatch();
   }
 });
+
+async function readApiError(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    const body = await response.json();
+    return body.error || "request failed.";
+  }
+
+  return response.text();
+}
