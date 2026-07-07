@@ -186,7 +186,7 @@ async function startPaypalCheckout() {
       body: JSON.stringify({ playerId })
     });
 
-    if (!response.ok) throw new Error("paypal checkout is not connected yet.");
+    if (!response.ok) throw new Error(await readApiError(response));
 
     const data = await response.json();
     if (!data.approvalUrl) throw new Error("paypal did not return a checkout link.");

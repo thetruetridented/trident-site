@@ -58,6 +58,12 @@
   color: white;
 }
 
+.theme-mlojnir {
+  --accent: #ff1717;
+  --accent-shift: #8ea2ff;
+  --arrow-hover-filter: brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(6467%) hue-rotate(356deg) brightness(105%) contrast(109%);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -978,6 +984,108 @@ body {
   line-height: 1.25;
 }
 
+.mlojnir-icon {
+  image-rendering: pixelated;
+  border-radius: 0;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+.mlojnir-hero {
+  background: black;
+}
+
+.theme-mlojnir #corebg {
+  background: black;
+}
+
+.theme-mlojnir .core-copy {
+  padding: 24px;
+  background: black;
+}
+
+.theme-mlojnir .core-copy h1,
+.theme-mlojnir .core-copy p {
+  color: white;
+  opacity: 1;
+}
+
+.theme-mlojnir .full-version-link {
+  background: var(--accent);
+  color: white;
+  animation: none;
+}
+
+.theme-mlojnir .full-version-link:hover {
+  color: white;
+}
+
+.mlojnir-icon:hover {
+  border-radius: 0;
+  transform: scale(1.04);
+}
+
+.placeholder-video {
+  display: grid;
+  place-items: center;
+  background: #050505;
+  color: white;
+}
+
+.placeholder-video div {
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.placeholder-video span {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.placeholder-video strong {
+  color: var(--accent);
+  font-size: 72px;
+  line-height: 0.9;
+}
+
+.mlojnir-creator-feature {
+  background: black;
+}
+
+.mlojnir-feature-grid .feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.command-chip,
+.inline-command,
+.command-display {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 8px 12px;
+  background: black;
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.command-chip + .command-chip {
+  margin-top: 8px;
+}
+
+.inline-command {
+  margin: 0;
+  font-size: 18px;
+}
+
+.command-display {
+  cursor: default;
+}
+
 @media (max-width: 800px) {
   .icon-layer {
     flex-direction: column;
@@ -1100,6 +1208,10 @@ body {
 
   .disguiser-form {
     padding: 20px;
+  }
+
+  .placeholder-video strong {
+    font-size: 46px;
   }
 
   .moneymatch-hero {
