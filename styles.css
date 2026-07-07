@@ -129,6 +129,25 @@ body {
   opacity: 1;
 }
 
+.brawlhalla-nav {
+  position: absolute;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brawlhalla-nav a {
+  color: white;
+  font-size: 18px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brawlhalla-nav a:hover {
+  color: var(--accent);
+}
+
 .site-header,
 .site-main,
 .site-footer {
@@ -1175,6 +1194,15 @@ body {
   .nav-tool-link {
     right: 14px;
     font-size: 16px;
+  }
+
+  .brawlhalla-nav {
+    right: 14px;
+    gap: 10px;
+  }
+
+  .brawlhalla-nav a {
+    font-size: 13px;
   }
 
   .titlebar {
