@@ -64,6 +64,11 @@
   --arrow-hover-filter: brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(6467%) hue-rotate(356deg) brightness(105%) contrast(109%);
 }
 
+.theme-404 {
+  background: #ff0000;
+  color: white;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -152,6 +157,20 @@ body {
 .site-main,
 .site-footer {
   width: 100%;
+}
+
+.not-found-page {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 64px);
+  background: #ff0000;
+  color: white;
+}
+
+.not-found-page h1 {
+  margin: 0;
+  font-size: 120px;
+  line-height: 1;
 }
 
 .hero {
