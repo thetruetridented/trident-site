@@ -1072,6 +1072,33 @@ body {
   background: black;
 }
 
+.mlojnir-code-promo {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 88px 7vw;
+  background: black;
+  color: white;
+  text-align: center;
+}
+
+.mlojnir-code-promo h2,
+.mlojnir-code-promo p {
+  margin: 0;
+}
+
+.mlojnir-code-promo h2 {
+  font-size: 72px;
+  line-height: 0.9;
+}
+
+.mlojnir-code-promo p {
+  max-width: 980px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 24px;
+  line-height: 1.35;
+}
+
 .mlojnir-feature-grid .feature-card {
   display: flex;
   flex-direction: column;
