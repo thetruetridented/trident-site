@@ -179,11 +179,30 @@ body {
 
 .colorforge-intro {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 64px;
   align-items: end;
   padding: 78px 0 56px;
 }
+
+.colorforge-download-callout {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  padding-bottom: 8px;
+}
+
+.colorforge-download-button {
+  display: inline-block;
+  padding: 18px 30px;
+  background: var(--accent);
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.colorforge-download-button:hover { background: black; color: white; }
+.colorforge-download-callout p { margin: 0; color: rgba(0, 0, 0, 0.62); font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
 
 .colorforge-kicker,
 .workbench-label {
@@ -266,6 +285,9 @@ body {
   gap: 12px;
 }
 
+.desktop-download-note { margin: 4px 0 0; color: rgba(0, 0, 0, 0.68); font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.5; }
+.desktop-download-note a { color: var(--accent); font-weight: 700; }
+
 .swf-drop:hover,
 .swf-drop.is-dragging { border-color: var(--accent); background: #f2f2f2; }
 .swf-drop.has-file { border-style: solid; border-color: #46ef9b; }
@@ -312,7 +334,8 @@ body {
   max-width: 650px;
 }
 
-.palette-name-control {
+.palette-name-control,
+.preset-palette-control {
   display: grid;
   grid-template-columns: auto minmax(150px, 210px);
   gap: 8px;
@@ -320,14 +343,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.palette-name-control span {
+.palette-name-control span,
+.preset-palette-control span {
   color: rgba(0, 0, 0, 0.62);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.12em;
 }
 
-.palette-name-control input {
+.palette-name-control input,
+.preset-palette-control select {
   min-width: 0;
   padding: 10px 12px;
   border: 0;
@@ -336,6 +361,27 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
+
+.palette-editor {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.web-hue-control {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  gap: 10px;
+  min-height: 330px;
+  padding: 14px 8px;
+  background: #f2f2f2;
+}
+
+.web-hue-control span,
+.web-hue-control output { color: rgba(0, 0, 0, 0.62); font-family: Arial, Helvetica, sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; }
+.web-hue-control input { width: 28px; height: 100%; margin: 0; appearance: slider-vertical; writing-mode: vertical-lr; direction: rtl; accent-color: var(--accent); cursor: ns-resize; }
 
 .palette-groups {
   display: grid;
@@ -448,6 +494,8 @@ body {
     padding-top: 52px;
   }
 
+  .colorforge-download-callout { justify-items: start; }
+
   .colorforge-intro,
   .colorforge-workbench {
     width: min(100% - 28px, 1180px);
@@ -488,6 +536,8 @@ body {
     grid-template-columns: 1fr;
     margin-left: 0;
   }
+
+  .palette-editor { grid-template-columns: 44px minmax(0, 1fr); }
 
   .shade-grid {
     grid-template-columns: repeat(3, minmax(54px, 1fr));

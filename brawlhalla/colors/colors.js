@@ -56,7 +56,10 @@ const pushbyteSelect = document.querySelector("#pushbyte-index");
 const pushbyteReadout = document.querySelector("#pushbyte-readout");
 const paletteName = document.querySelector("#palette-name");
 const paletteImport = document.querySelector("#palette-import");
+const presetPalette = document.querySelector("#preset-palette");
 let backendReady = false;
+let hueBase = null;
+let applyingHue = false;
 
 function shadeLabel(key) {
   if (key.endsWith("Acc")) return LABELS.Acc;
@@ -81,7 +84,10 @@ function renderPalette() {
       label.innerHTML = `<span>${shadeLabel(key)}</span><input type="color" name="${key}" value="${DEFAULTS[key]}" aria-label="${groupName} ${shadeLabel(key)}"><code>${DEFAULTS[key].toUpperCase()}</code>`;
       const input = label.querySelector("input");
       const code = label.querySelector("code");
-      input.addEventListener("input", () => { code.textContent = input.value.toUpperCase(); });
+      input.addEventListener("input", () => {
+        code.textContent = input.value.toUpperCase();
+        if (!applyingHue) resetHueBaseline();
+      });
       grid.append(label);
     });
     host.append(group);
@@ -99,6 +105,40 @@ function currentColors() {
   return Object.fromEntries(COLOR_KEYS.map((key) => [key, form.elements[key].value.toLowerCase()]));
 }
 
+function resetHueBaseline() {
+  hueBase = currentColors();
+  const slider = document.querySelector("#hue-shift");
+  const readout = document.querySelector("#hue-readout");
+  if (slider) slider.value = "0";
+  if (readout) readout.textContent = "0°";
+}
+
+function shiftHue(hex, degrees) {
+  const value = Number.parseInt(hex.slice(1), 16);
+  let r = ((value >> 16) & 255) / 255;
+  let g = ((value >> 8) & 255) / 255;
+  let b = (value & 255) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const lightness = (max + min) / 2;
+  const delta = max - min;
+  let hue = 0;
+  let saturation = 0;
+  if (delta) {
+    saturation = delta / (1 - Math.abs(2 * lightness - 1));
+    if (max === r) hue = 60 * (((g - b) / delta) % 6);
+    else if (max === g) hue = 60 * ((b - r) / delta + 2);
+    else hue = 60 * ((r - g) / delta + 4);
+  }
+  hue = (hue + degrees + 360) % 360;
+  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+  const x = chroma * (1 - Math.abs(((hue / 60) % 2) - 1));
+  const match = lightness - chroma / 2;
+  const sectors = [[chroma, x, 0], [x, chroma, 0], [0, chroma, x], [0, x, chroma], [x, 0, chroma], [chroma, 0, x]];
+  [r, g, b] = sectors[Math.floor(hue / 60) % 6].map((channel) => Math.round((channel + match) * 255));
+  return `#${[r, g, b].map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
+}
+
 function normalizeColor(value, field) {
   let text = String(value ?? "").trim().replace(/^#/, "").replace(/^0x/i, "");
   if (!/^[0-9a-f]{6}$/i.test(text)) throw new Error(`Invalid color for ${field}: ${value}`);
@@ -114,6 +154,7 @@ function applyPalette(name, colors) {
     input.dispatchEvent(new Event("input"));
   });
   paletteName.value = name || "Imported Palette";
+  resetHueBaseline();
 }
 
 function filenameStem() {
@@ -250,6 +291,35 @@ installDropTarget(airDrop, airFileInput, updateAirFile);
 pushbyteSelect.addEventListener("change", () => {
   pushbyteReadout.textContent = `color slot ${pushbyteSelect.value}`;
 });
+document.querySelector("#hue-shift").addEventListener("input", (event) => {
+  if (!hueBase) hueBase = currentColors();
+  const degrees = Number(event.target.value);
+  applyingHue = true;
+  COLOR_KEYS.forEach((key) => {
+    const input = form.elements[key];
+    input.value = shiftHue(hueBase[key], degrees);
+    input.dispatchEvent(new Event("input"));
+  });
+  applyingHue = false;
+  document.querySelector("#hue-readout").textContent = `${degrees > 0 ? "+" : ""}${degrees}°`;
+});
+presetPalette.addEventListener("change", async () => {
+  if (!presetPalette.value) return;
+  const option = presetPalette.options[presetPalette.selectedIndex];
+  try {
+    const response = await fetch(presetPalette.value);
+    if (!response.ok) throw new Error("The preset file could not be loaded.");
+    const filename = presetPalette.value.split("/").pop();
+    const file = new File([await response.blob()], filename);
+    const imported = await importPaletteFile(file);
+    applyPalette(option.dataset.name || imported.name, imported.colors);
+    status.textContent = `${option.textContent} preset loaded.`;
+    status.className = "form-status visible success";
+  } catch (error) {
+    status.textContent = error.message;
+    status.className = "form-status visible error";
+  }
+});
 document.querySelector("#reset-palette").addEventListener("click", () => {
   Object.entries(DEFAULTS).forEach(([key, value]) => {
     const input = form.elements[key];
@@ -257,6 +327,8 @@ document.querySelector("#reset-palette").addEventListener("click", () => {
     input.dispatchEvent(new Event("input"));
   });
   paletteName.value = "Test Palette";
+  presetPalette.value = "";
+  resetHueBaseline();
   status.textContent = "Test palette restored.";
   status.className = "form-status visible";
 });
@@ -268,6 +340,7 @@ paletteImport.addEventListener("change", async () => {
   try {
     const imported = await importPaletteFile(file);
     applyPalette(imported.name, imported.colors);
+    presetPalette.value = "";
     status.textContent = `Imported ${file.name}.`;
     status.className = "form-status visible success";
   } catch (error) {
@@ -342,4 +415,5 @@ form.addEventListener("submit", async (event) => {
 
 renderPalette();
 renderReplacementColors();
+resetHueBaseline();
 checkBackend();
