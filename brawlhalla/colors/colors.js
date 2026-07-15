@@ -1,6 +1,4 @@
-const API_ROOT = ["localhost", "127.0.0.1"].includes(window.location.hostname)
-  ? "http://127.0.0.1:8765"
-  : "https://sussyrakas.onrender.com";
+const API_ROOT = "https://sussyrakas.onrender.com";
 
 const DEFAULTS = {
   HairLt: "#d0ffff", Hair: "#a0e5ed", HairDk: "#67bee1",
@@ -217,19 +215,19 @@ async function checkBackend() {
   const label = document.querySelector("#backend-label");
   const help = document.querySelector("#backend-help");
   dot.className = "backend-dot checking";
-  label.textContent = "checking local backend";
+  label.textContent = "connecting to Color Forge";
   try {
     const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
     if (!response.ok) throw new Error();
     backendReady = true;
     dot.className = "backend-dot online";
-    label.textContent = "local backend online";
-    help.textContent = "Your file is processed locally on this computer.";
+    label.textContent = "Color Forge online";
+    help.textContent = "Ready to build with the hosted Render service.";
   } catch {
     backendReady = false;
     dot.className = "backend-dot offline";
-    label.textContent = "local backend offline";
-    help.textContent = "Run start-colorswap-server.ps1, then retry.";
+    label.textContent = "Color Forge unavailable";
+    help.textContent = "The hosted service may be waking up. Wait a moment, then retry.";
   }
   updateFile(fileInput.files[0]);
   updateAirFile(airFileInput.files[0]);
@@ -262,7 +260,7 @@ installDropTarget(airDrop, airFileInput, updateAirFile);
 
 document.querySelector("#retry-backend").addEventListener("click", checkBackend);
 pushbyteSelect.addEventListener("change", () => {
-  pushbyteReadout.textContent = `pushbyte ${pushbyteSelect.value}`;
+  pushbyteReadout.textContent = `color slot ${pushbyteSelect.value}`;
 });
 document.querySelector("#reset-palette").addEventListener("click", () => {
   Object.entries(DEFAULTS).forEach(([key, value]) => {

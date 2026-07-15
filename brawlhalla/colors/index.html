@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Build custom Brawlhalla color swaps from UI_MainMenu.swf.">
-    <meta name="theme-color" content="#6f43ff">
+    <meta name="theme-color" content="#ff1717">
     <title>color forge</title>
     <link rel="icon" type="image/png" href="../../images/dvd.png">
-    <link rel="stylesheet" href="../../styles.css?v=20260714-1">
+    <link rel="stylesheet" href="../../styles.css?v=20260714-2">
   </head>
   <body class="theme-colorforge">
     <header class="site-header">
@@ -30,13 +30,12 @@
         <div>
           <p class="colorforge-kicker">BRAWLHALLA COLOR TOOL</p>
           <h1>COLOR<br>FORGE</h1>
-          <p class="colorforge-lead">Drop in UI_MainMenu. Pick every shade. Get the finished file back.</p>
         </div>
         <div class="backend-card">
           <span id="backend-dot" class="backend-dot" aria-hidden="true"></span>
           <div>
-            <strong id="backend-label">checking local backend</strong>
-            <p id="backend-help">Start the Trident color backend before building.</p>
+            <strong id="backend-label">connecting to Color Forge</strong>
+            <p id="backend-help">Connecting to the hosted Render service.</p>
           </div>
           <button id="retry-backend" type="button">RETRY</button>
         </div>
@@ -92,7 +91,7 @@
           <div class="section-number">03</div>
           <div>
             <p class="workbench-label">OUTPUT</p>
-            <h2>PATCH + VERIFY</h2>
+            <h2>EXPORT</h2>
             <p>The files must come from the same game update. Both originals stay untouched; the finished download is named UI_MainMenu.swf.</p>
           </div>
           <div class="build-controls">
@@ -101,15 +100,16 @@
               <select id="pushbyte-index" name="pushbyteIndex"></select>
             </label>
             <button id="build-button" class="build-button" type="submit" disabled>
-              <span>BUILD COLOR SWAP</span>
-              <small id="pushbyte-readout">pushbyte 1</small>
+              <span>Create color</span>
+              <small id="pushbyte-readout">color slot 1</small>
             </button>
           </div>
         </section>
         <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+        <p class="colorforge-credit">credit to brokeboiroland for publicising the method, I just automated it - thetruetrident</p>
       </form>
     </main>
 
-    <script src="colors.js?v=20260714-1"></script>
+    <script src="colors.js?v=20260714-4"></script>
   </body>
 </html>
