@@ -211,23 +211,12 @@ function updateAirFile(file) {
 }
 
 async function checkBackend() {
-  const dot = document.querySelector("#backend-dot");
-  const label = document.querySelector("#backend-label");
-  const help = document.querySelector("#backend-help");
-  dot.className = "backend-dot checking";
-  label.textContent = "connecting to Color Forge";
   try {
     const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
     if (!response.ok) throw new Error();
     backendReady = true;
-    dot.className = "backend-dot online";
-    label.textContent = "Color Forge online";
-    help.textContent = "Ready to build with the hosted Render service.";
   } catch {
     backendReady = false;
-    dot.className = "backend-dot offline";
-    label.textContent = "Color Forge unavailable";
-    help.textContent = "The hosted service may be waking up. Wait a moment, then retry.";
   }
   updateFile(fileInput.files[0]);
   updateAirFile(airFileInput.files[0]);
@@ -258,7 +247,6 @@ function installDropTarget(target, input, update) {
 installDropTarget(drop, fileInput, updateFile);
 installDropTarget(airDrop, airFileInput, updateAirFile);
 
-document.querySelector("#retry-backend").addEventListener("click", checkBackend);
 pushbyteSelect.addEventListener("change", () => {
   pushbyteReadout.textContent = `color slot ${pushbyteSelect.value}`;
 });
