@@ -227,7 +227,6 @@ function fileIsValid(file, expectedName) {
 
 function updateBuildState() {
   buildButton.disabled = !(
-    backendReady &&
     fileIsValid(fileInput.files[0], "UI_MainMenu.swf") &&
     fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf")
   );
@@ -261,6 +260,15 @@ async function checkBackend() {
   }
   updateFile(fileInput.files[0]);
   updateAirFile(airFileInput.files[0]);
+}
+
+async function ensureBackendReady() {
+  if (backendReady) return;
+  status.textContent = "Waking the color maker backend...";
+  status.className = "form-status visible";
+  const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
+  if (!response.ok) throw new Error("The backend is waking up. Try Create color again in a moment.");
+  backendReady = true;
 }
 
 function readAsBase64(file) {
@@ -374,9 +382,11 @@ form.addEventListener("submit", async (event) => {
   if (!fileIsValid(file, "UI_MainMenu.swf") || !fileIsValid(airFile, "BrawlhallaAir.swf")) return;
   buildButton.disabled = true;
   buildButton.classList.add("is-building");
-  status.textContent = "Building and verifying your color swap…";
+  status.textContent = "Building and verifying your color swap...";
   status.className = "form-status visible";
   try {
+    await ensureBackendReady();
+    status.textContent = "Building and verifying your color swap...";
     const colors = currentColors();
     const response = await fetch(`${API_ROOT}/api/colorswap`, {
       method: "POST",
