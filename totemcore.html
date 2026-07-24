@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="spearcore is a lightweight clientside movement mod for spear dashing, rolling, and lunge-based movement tech.">
-    <title>spearcore</title>
+    <meta name="description" content="totemcore is a lightweight clientside auto totem mod with configurable randomness, delay, and speed.">
+    <title>totemcore</title>
     <link rel="icon" type="image/png" href="images/dvd.png">
-    <link rel="stylesheet" href="styles.css?v=20260704-3">
+    <link rel="stylesheet" href="styles.css?v=20260724-1">
   </head>
-  <body class="theme-spear">
+  <body class="theme-totem">
     <header class="site-header">
       <nav class="navbar">
         <a class="home-logo" href="index.html" aria-label="Home">
@@ -20,20 +20,20 @@
 
     <main class="site-main">
       <section class="hero">
-        <a class="core-arrow core-arrow-left" href="index.html" aria-label="Previous core">
+        <a class="core-arrow core-arrow-left" href="cartcore.html" aria-label="Previous core">
           <img src="images/leftarrow.png" alt="">
         </a>
-        <a class="core-arrow core-arrow-right" href="macecore.html" aria-label="Next core">
+        <a class="core-arrow core-arrow-right" href="index.html" aria-label="Next core">
           <img src="images/rightarrow.png" alt="">
         </a>
         <div class="hero-content">
           <div class="icon-layer">
-            <img class="site-icon" src="images/spearicon.png" alt="">
+            <img class="site-icon" src="images/totemicon.png" alt="">
             <div class="core-copy">
-              <h1>spearcore</h1>
+              <h1>totemcore</h1>
               <p>get the free version here</p>
               <div class="version-actions">
-                <a class="version-button version-button-primary" href="https://drive.google.com/uc?export=download&amp;id=1wrvlwc7tiRAXc3iKoiFda3v0Ay4i2lQu">26.2</a>
+                <a class="version-button version-button-primary" href="https://drive.google.com/uc?export=download&amp;id=11o0ka8L63ykNm1rhePCoDchydkxlKRdM">26.2</a>
                 <a class="version-button" href="#downloads">1.21.11</a>
               </div>
               <a class="full-version-link" href="https://www.patreon.com/c/thetruetrident/membership">
@@ -48,7 +48,7 @@
             <p>Requires <a href="https://modrinth.com/mod/fzzy-config">Fzzy Config</a> &amp; <a href="https://modrinth.com/mod/modmenu">Mod Menu</a> for configuration</p>
           </div>
         </div>
-        <video id="corebg" autoplay muted loop playsinline src="images/spear.mp4"></video>
+        <video id="corebg" autoplay muted loop playsinline src="images/totem.mp4"></video>
       </section>
 
       <section class="overview-section">
@@ -56,8 +56,8 @@
           <iframe
             width="1488"
             height="837"
-            src="https://www.youtube.com/embed/FKqIvNyEuxg"
-            title="spearcore showcase"
+            src="https://www.youtube.com/embed/WaDfmC9oQcY"
+            title="totemcore showcase"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen>
@@ -65,7 +65,7 @@
         </div>
         <div class="overview-copy">
           <h2>simple &amp; lightweight</h2>
-          <p>This is a clientside mod for the newest snapshots that uses attribute swapping tech to perform a dash or roll on your chosen keybind. As long as you have a spear enchanted with Lunge in your hotbar, you can dash forward, backward, sideways, and diagonally.</p>
+          <p>This is a simple auto totem that works differently from other auto totems: it opens your inventory, moves your cursor toward a totem, then equips that totem to offhand with configurable randomness, delay, and speed.</p>
         </div>
       </section>
 
@@ -73,7 +73,7 @@
         <div class="notice-grid">
           <div class="serverside-feature">
             <h2>WANT MORE?</h2>
-            <p>The premium version includes range extension-swapping: if a spear without Lunge is in your inventory and you attack a mob just outside normal reach, a spear swap is attempted to bridge the gap.</p>
+            <p>If installed serverside, this mod acts as its own anti-cheat and searches for totemcore:totem-rep to remove you from the server. The packet is not present if you compile from source or get it from Patreon.</p>
             <p class="patreon-emphasis">You also get access to in dev features and exclusive features from the Patreon.</p>
             <a class="patreon-link" href="https://www.patreon.com/c/thetruetrident/membership">Patreon</a>
           </div>
@@ -81,31 +81,63 @@
 
         <div class="feature-showcase">
           <div class="section-heading">
-            <p>fast movement, low friction</p>
+            <p>planned and configurable</p>
             <h2>features</h2>
           </div>
           <div class="feature-grid">
             <article class="feature-card">
-              <h3>Cardinal Dashing</h3>
-              <p>Dash in any cardinal direction, including backwards, from a single configurable keybind.</p>
+              <h3>Inventory-Based Totems</h3>
+              <p>Opens inventory, moves the cursor to a totem, and equips it to offhand with configurable delay, speed, and randomness.</p>
             </article>
             <article class="feature-card">
-              <h3>Air &amp; Land Movement</h3>
-              <p>Works in the air, on land, diagonally forward, and diagonally backward.</p>
+              <h3>Tick Variance</h3>
+              <p>Built around configurable randomness to reduce obvious repeat patterns.</p>
             </article>
             <article class="feature-card">
-              <h3>Feedback Effects</h3>
-              <p>Custom sound effects and particles make the dash feel responsive and readable.</p>
+              <h3>Planned Upgrades</h3>
+              <p>Totem priming, auto dtap immunity, and a totem counter are planned future additions.</p>
             </article>
           </div>
         </div>
 
         <div class="server-guide">
           <div class="section-heading">
-            <p>future suggestions</p>
-            <h2>community</h2>
+            <p>tested as of April 16, 2026</p>
+            <h2>TESTED ON SERVERS</h2>
           </div>
-          <p class="server-note">Join the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a> to suggest future Spearcore features.</p>
+          <p class="server-note">If this list is inaccurate, warn others in the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a>.</p>
+          <div class="server-columns">
+            <article>
+              <h3>MCPVP</h3>
+              <ul>
+                <li>Functional &amp; Safe</li>
+              </ul>
+            </article>
+            <article>
+              <h3>pvphq.com</h3>
+              <ul>
+                <li>Functional &amp; Safe</li>
+              </ul>
+            </article>
+            <article>
+              <h3>CatPVP</h3>
+              <ul>
+                <li>Functional &amp; Safe</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Flamefrags</h3>
+              <ul>
+                <li>Functional &amp; Safe</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Minemen</h3>
+              <ul>
+                <li>Functional &amp; Safe</li>
+              </ul>
+            </article>
+          </div>
         </div>
 
         <section id="downloads" class="downloads-section">
@@ -115,14 +147,14 @@
           </div>
           <div class="download-grid">
             <article class="download-card">
-              <h3>Spearcore 26.2</h3>
+              <h3>Totemcore 26.2</h3>
               <p>Free nonpremium JAR</p>
-              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1wrvlwc7tiRAXc3iKoiFda3v0Ay4i2lQu">Download JAR</a>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=11o0ka8L63ykNm1rhePCoDchydkxlKRdM">Download JAR</a>
             </article>
             <article class="download-card">
-              <h3>Spearcore 1.21.11</h3>
+              <h3>Totemcore 1.21.11</h3>
               <p>Free nonpremium JAR</p>
-              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1px8_JpI7kY_pzY9UKMOgzrvRsD69jXD6">Download JAR</a>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1A6JRDEuT5Mq-T8tfrmRtZZcaOIHb8r3z">Download JAR</a>
             </article>
           </div>
         </section>

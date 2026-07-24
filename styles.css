@@ -38,6 +38,12 @@
   --arrow-hover-filter: brightness(0) saturate(100%) invert(70%) sepia(86%) saturate(597%) hue-rotate(80deg) brightness(98%) contrast(92%);
 }
 
+.theme-totem {
+  --accent: #ffe600;
+  --accent-shift: #ff9f1c;
+  --arrow-hover-filter: brightness(0) saturate(100%) invert(91%) sepia(91%) saturate(1416%) hue-rotate(358deg) brightness(105%) contrast(105%);
+}
+
 .theme-disguiser {
   --accent: #f5d04c;
   --accent-shift: #00e5ff;
