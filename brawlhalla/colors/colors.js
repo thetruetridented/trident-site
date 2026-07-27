@@ -266,9 +266,42 @@ async function ensureBackendReady() {
   if (backendReady) return;
   status.textContent = "Waking the color maker backend...";
   status.className = "form-status visible";
-  const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
-  if (!response.ok) throw new Error("The backend is waking up. Try Create color again in a moment.");
-  backendReady = true;
+  try {
+    const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
+    backendReady = response.ok;
+  } catch {
+    backendReady = false;
+  }
+}
+
+function wait(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function requestColorSwap(payload) {
+  let lastError;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetch(`${API_ROOT}/api/colorswap`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload
+      });
+      if (![502, 503, 504].includes(response.status) || attempt === 2) return response;
+      lastError = new Error("The color maker backend is still waking up.");
+    } catch (error) {
+      lastError = error;
+      if (attempt === 2) break;
+    }
+    status.textContent = "Render is waking up. Retrying your color...";
+    status.className = "form-status visible";
+    await wait(1500);
+  }
+  throw new Error(
+    lastError instanceof TypeError
+      ? "Could not connect to the color maker backend. Check your connection and try again."
+      : lastError?.message || "The color maker backend could not be reached."
+  );
 }
 
 function readAsBase64(file) {
@@ -395,10 +428,8 @@ form.addEventListener("submit", async (event) => {
     await ensureBackendReady();
     status.textContent = "Building and verifying your color swap...";
     const colors = currentColors();
-    const response = await fetch(`${API_ROOT}/api/colorswap`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const response = await requestColorSwap(
+      JSON.stringify({
         filename: file.name,
         swfBase64: await readAsBase64(file),
         airFilename: airFile.name,
@@ -406,7 +437,7 @@ form.addEventListener("submit", async (event) => {
         pushbyteIndex: Number(pushbyteSelect.value),
         colors
       })
-    });
+    );
     if (!response.ok) {
       const payload = await response.json().catch(() => ({}));
       throw new Error(payload.error || "The backend could not build this file.");
