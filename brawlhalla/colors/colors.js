@@ -230,7 +230,6 @@ function updateBuildState() {
     fileIsValid(fileInput.files[0], "UI_MainMenu.swf") &&
     fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf");
   buildButton.dataset.filesReady = String(filesReady);
-  buildButton.setAttribute("aria-disabled", String(!filesReady));
 }
 
 function updateFile(file) {
