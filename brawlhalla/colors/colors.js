@@ -226,10 +226,11 @@ function fileIsValid(file, expectedName) {
 }
 
 function updateBuildState() {
-  buildButton.disabled = !(
+  const filesReady =
     fileIsValid(fileInput.files[0], "UI_MainMenu.swf") &&
-    fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf")
-  );
+    fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf");
+  buildButton.dataset.filesReady = String(filesReady);
+  buildButton.setAttribute("aria-disabled", String(!filesReady));
 }
 
 function updateFile(file) {
@@ -379,7 +380,14 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const file = fileInput.files[0];
   const airFile = airFileInput.files[0];
-  if (!fileIsValid(file, "UI_MainMenu.swf") || !fileIsValid(airFile, "BrawlhallaAir.swf")) return;
+  const missingFiles = [];
+  if (!fileIsValid(file, "UI_MainMenu.swf")) missingFiles.push("UI_MainMenu.swf");
+  if (!fileIsValid(airFile, "BrawlhallaAir.swf")) missingFiles.push("BrawlhallaAir.swf");
+  if (missingFiles.length) {
+    status.textContent = `Choose the original ${missingFiles.join(" and ")} file${missingFiles.length > 1 ? "s" : ""} first.`;
+    status.className = "form-status visible error";
+    return;
+  }
   buildButton.disabled = true;
   buildButton.classList.add("is-building");
   status.textContent = "Building and verifying your color swap...";
@@ -417,6 +425,7 @@ form.addEventListener("submit", async (event) => {
     status.textContent = error.message;
     status.className = "form-status visible error";
   } finally {
+    buildButton.disabled = false;
     buildButton.classList.remove("is-building");
     updateFile(fileInput.files[0]);
     updateAirFile(airFileInput.files[0]);
