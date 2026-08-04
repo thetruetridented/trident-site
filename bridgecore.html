@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="bridgecore is a lightweight clientside utility mod for configurable bridging assistance, timing, movement, and presets.">
+    <title>bridgecore</title>
+    <link rel="icon" type="image/png" href="images/dvd.png">
+    <link rel="stylesheet" href="styles.css?v=20260804-1">
+  </head>
+  <body class="theme-bridge">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="hero">
+        <a class="core-arrow core-arrow-left" href="totemcore.html" aria-label="Previous core">
+          <img src="images/leftarrow.png" alt="">
+        </a>
+        <a class="core-arrow core-arrow-right" href="index.html" aria-label="Next core">
+          <img src="images/rightarrow.png" alt="">
+        </a>
+        <div class="hero-content">
+          <div class="icon-layer">
+            <img class="site-icon" src="images/bridgeicon.png" alt="">
+            <div class="core-copy">
+              <h1>bridgecore</h1>
+              <p>get the free version here</p>
+              <div class="version-actions">
+                <a class="version-button version-button-primary" href="https://drive.google.com/uc?export=download&amp;id=1rs7wS_xP48V296uF2e59Fxktka8xDZp-">26.2</a>
+                <a class="version-button" href="#downloads">1.21.11</a>
+              </div>
+              <a class="full-version-link" href="https://www.patreon.com/c/thetruetrident/membership">
+                <img src="images/patreon-icon.png" alt="">
+                <span>Get the FULL VERSION on Patreon</span>
+              </a>
+              <a class="more-versions" href="#downloads">SEE ALL VERSIONS</a>
+            </div>
+          </div>
+          <div class="requirement-note">
+            <img src="images/Sprite-344001.png" alt="">
+            <p><a href="https://modrinth.com/mod/fzzy-config">Fzzy Config</a> &amp; <a href="https://modrinth.com/mod/modmenu">Mod Menu</a> are recommended for configuration</p>
+          </div>
+        </div>
+        <video id="corebg" autoplay muted loop playsinline src="images/bridge.mp4"></video>
+      </section>
+
+      <section class="overview-section">
+        <div class="video-panel">
+          <iframe
+            width="1488"
+            height="837"
+            src="https://www.youtube.com/embed/5UEx8ghKBi8"
+            title="bridgecore showcase"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="overview-copy">
+          <h2>simple &amp; lightweight</h2>
+          <p>This is a clientside utility mod for bridging that lets you bridge more optimally and safely. Sneak intervals, jump intervals, S-tap intervals, aim transitions, and more can be configured, timed, and optimized.</p>
+        </div>
+      </section>
+
+      <section class="details-section">
+        <div class="notice-grid">
+          <div class="serverside-feature">
+            <h2>WANT MORE?</h2>
+            <p>If installed serverside, this mod acts as its own anti-cheat and searches for bridgecore:bridgecore-rep to remove you from the server. The packet is not present if you compile from source or get it from Patreon.</p>
+            <p class="patreon-emphasis">You also get access to in dev features and exclusive features from the Patreon.</p>
+            <a class="patreon-link" href="https://www.patreon.com/c/thetruetrident/membership">Patreon</a>
+          </div>
+        </div>
+
+        <div class="feature-showcase">
+          <div class="section-heading">
+            <p>entirely configurable</p>
+            <h2>features</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Bridging</h3>
+              <p>Detects bridge-start conditions and handles aiming or movement assistance.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Start Modes</h3>
+              <p>Start from block placement below you or by walking forward off a qualifying ledge.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Configurable Aim Transition</h3>
+              <p>Smooth yaw and pitch movement with selectable easing and speed.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Presets</h3>
+              <p>Includes Fruitberries, Godbridge, Tellybridge, and Ninja Bridge while keeping full customizability.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Movement Timers</h3>
+              <p>Backer, Sneaker, Jumper, Hold Direction, and Sprint Anchor tune bridge movement timing.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Placement Control</h3>
+              <p>Tap Alignment, Preview Placement, Top Clamp, and direct frame click modes help control placement behavior.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Import / Export Config</h3>
+              <p>Save and load bridge presets made by you or your friends.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Tick Variance</h3>
+              <p>Most features include configurable tick variance to minimize detection patterns.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="server-guide">
+          <div class="section-heading">
+            <p>recommended settings as of August 4, 2026</p>
+            <h2>TESTED ON SERVERS</h2>
+          </div>
+          <p class="server-note">Direct frame placement bridges are semi-detectable. If this list is inaccurate, warn others in the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a>.</p>
+          <div class="server-columns">
+            <article>
+              <h3>MCPVP</h3>
+              <ul>
+                <li>Fruitberries</li>
+                <li>Godbridge</li>
+                <li>Tellybridge - <span class="warning-risk">warning</span></li>
+                <li>Ninja Bridge</li>
+                <li>Custom</li>
+              </ul>
+            </article>
+            <article>
+              <h3>PVPHQ</h3>
+              <ul>
+                <li>Fruitberries</li>
+                <li>Godbridge</li>
+                <li>Tellybridge - <span class="warning-risk">warning</span></li>
+                <li>Ninja Bridge</li>
+                <li>Custom</li>
+              </ul>
+            </article>
+            <article>
+              <h3>MINEMEN.CLUB</h3>
+              <ul>
+                <li>Fruitberries</li>
+                <li>Godbridge</li>
+                <li>Tellybridge - <span class="warning-risk">warning</span></li>
+                <li>Ninja Bridge</li>
+                <li>Custom</li>
+              </ul>
+            </article>
+            <article>
+              <h3>FLAMEFRAGS</h3>
+              <ul>
+                <li>Fruitberries</li>
+                <li>Godbridge</li>
+                <li>Tellybridge - <span class="warning-risk">warning</span></li>
+                <li>Ninja Bridge</li>
+                <li>Custom</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <section id="downloads" class="downloads-section">
+          <div class="section-heading">
+            <p>quick downloads</p>
+            <h2>downloads</h2>
+          </div>
+          <div class="download-grid">
+            <article class="download-card">
+              <h3>Bridgecore 26.2</h3>
+              <p>Free nonpremium JAR</p>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1rs7wS_xP48V296uF2e59Fxktka8xDZp-">Download JAR</a>
+            </article>
+            <article class="download-card">
+              <h3>Bridgecore 1.21.11</h3>
+              <p>Free nonpremium JAR</p>
+              <a class="download-link" href="https://drive.google.com/uc?export=download&amp;id=1LgZrcm0gXrtpvMxmbhNdQRrRWXFm16yh">Download JAR</a>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

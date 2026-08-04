@@ -44,6 +44,12 @@
   --arrow-hover-filter: brightness(0) saturate(100%) invert(91%) sepia(91%) saturate(1416%) hue-rotate(358deg) brightness(105%) contrast(105%);
 }
 
+.theme-bridge {
+  --accent: #f801a4;
+  --accent-shift: #ff69cb;
+  --arrow-hover-filter: brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(7447%) hue-rotate(315deg) brightness(102%) contrast(105%);
+}
+
 .theme-disguiser {
   --accent: #f5d04c;
   --accent-shift: #00e5ff;
@@ -1022,6 +1028,10 @@ body {
 
 .high-risk {
   color: #ff1f3d;
+}
+
+.warning-risk {
+  color: #ff9f1c;
 }
 
 .server-note a {
