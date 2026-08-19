@@ -36,7 +36,7 @@ const REPLACEMENT_COLORS = [
   "Home Team Reunion", "Haunting", "Ghoulish", "Gala", "Winter Holiday", "Holly Jolly", "Soul Fire",
   "Synthwave", "Frozen Forest", "Coat of Lions", "Starlight", "Willow Leaves", "Pact of Poison",
   "Darkheart", "Armageddon", "Kira-Kira", "Ancient Curse", "Neon Hanafuda", "Dragonfire", "White", "Black",
-  "Skyforged", "Goldforged", "Crystalforged", "RGB", "Blacklight", "Community Colors", "Community Colors v2", "Esports v1",
+  "Skyforged", "Goldforged", "Crystalforged", "RGB", "CMYK", "Blacklight", "Community Colors", "Community Colors v2", "Esports v1",
   "Esports v2", "Esports v3", "Esports v4", "Esports v5", "Esports v6", "Esports v7", "Guild Colors"
 ];
 
