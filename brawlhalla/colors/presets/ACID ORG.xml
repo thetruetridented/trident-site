@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ColorSchemeTypes>
+  <ColorSchemeType ColorSchemeName="ACID ORG">
+    <HairLt_Swap>#4a4a4f</HairLt_Swap>
+    <Hair_Swap>#2d312b</Hair_Swap>
+    <HairDk_Swap>#050505</HairDk_Swap>
+    <Body1VL_Swap>#5a5a60</Body1VL_Swap>
+    <Body1Lt_Swap>#404044</Body1Lt_Swap>
+    <Body1_Swap>#27272a</Body1_Swap>
+    <Body1Dk_Swap>#141416</Body1Dk_Swap>
+    <Body1VD_Swap>#09090b</Body1VD_Swap>
+    <Body1Acc_Swap>#1f1f22</Body1Acc_Swap>
+    <Body2VL_Swap>#eaffe5</Body2VL_Swap>
+    <Body2Lt_Swap>#ddffb3</Body2Lt_Swap>
+    <Body2_Swap>#abff66</Body2_Swap>
+    <Body2Dk_Swap>#36cc00</Body2Dk_Swap>
+    <Body2VD_Swap>#0c6600</Body2VD_Swap>
+    <Body2Acc_Swap>#72ff14</Body2Acc_Swap>
+    <SpecialVL_Swap>#ffffff</SpecialVL_Swap>
+    <SpecialLt_Swap>#b4ff99</SpecialLt_Swap>
+    <Special_Swap>#8fff33</Special_Swap>
+    <SpecialDk_Swap>#30b300</SpecialDk_Swap>
+    <SpecialVD_Swap>#054d00</SpecialVD_Swap>
+    <SpecialAcc_Swap>#9cff66</SpecialAcc_Swap>
+    <ClothVL_Swap>#82828c</ClothVL_Swap>
+    <ClothLt_Swap>#62626f</ClothLt_Swap>
+    <Cloth_Swap>#6a6a6c</Cloth_Swap>
+    <ClothDk_Swap>#343437</ClothDk_Swap>
+    <WeaponVL_Swap>#606065</WeaponVL_Swap>
+    <WeaponLt_Swap>#3a3a40</WeaponLt_Swap>
+    <Weapon_Swap>#1f1f22</Weapon_Swap>
+    <WeaponDk_Swap>#0f0f12</WeaponDk_Swap>
+    <WeaponAcc_Swap>#93ff6b</WeaponAcc_Swap>
+    <IndicatorColor>#ffffff</IndicatorColor>
+  </ColorSchemeType>
+</ColorSchemeTypes>
+
