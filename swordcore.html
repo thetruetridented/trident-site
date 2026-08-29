@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="swordcore is a lightweight clientside utility mod for sword pvp spacing, movement syncing, and movement resisting.">
+    <title>swordcore</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="styles.css?v=20260829-1">
+  </head>
+  <body class="theme-sword">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="index.html" aria-label="Home">
+          <img src="images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <section class="hero">
+        <a class="core-arrow core-arrow-left" href="bridgecore.html" aria-label="Previous core">
+          <img src="images/leftarrow.png" alt="">
+        </a>
+        <a class="core-arrow core-arrow-right" href="index.html" aria-label="Next core">
+          <img src="images/rightarrow.png" alt="">
+        </a>
+        <div class="hero-content">
+          <div class="icon-layer">
+            <img class="site-icon" src="images/swordicon.png" alt="">
+            <div class="core-copy">
+              <h1>swordcore</h1>
+              <p>get the free version here</p>
+              <div class="version-actions">
+                <a class="version-button version-button-primary" href="#downloads">26.2</a>
+                <a class="version-button" href="#downloads">1.21.11</a>
+              </div>
+              <a class="full-version-link" href="https://www.patreon.com/c/thetruetrident/membership">
+                <img src="images/patreon-icon.png" alt="">
+                <span>Get the FULL VERSION on Patreon</span>
+              </a>
+              <a class="more-versions" href="#downloads">SEE ALL VERSIONS</a>
+            </div>
+          </div>
+          <div class="requirement-note">
+            <img src="images/Sprite-344001.png" alt="">
+            <p>Requires <a href="https://modrinth.com/mod/fzzy-config">Fzzy Config</a> &amp; <a href="https://modrinth.com/mod/modmenu">Mod Menu</a> for configuration</p>
+          </div>
+        </div>
+        <video id="corebg" autoplay muted loop playsinline src="images/sword.mp4"></video>
+      </section>
+
+      <section class="overview-section">
+        <div class="video-panel">
+          <iframe
+            width="1488"
+            height="837"
+            src="https://www.youtube.com/embed/aCGC-cxiy98"
+            title="swordcore showcase"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="overview-copy">
+          <h2>simple &amp; lightweight</h2>
+          <p>This is a simple utility mod made for Sword PVPers. By default, movement syncing and movement resisting help you stay just out of range of sword opponents, then let you know when to move inward after they miss an attack.</p>
+        </div>
+      </section>
+
+      <section class="details-section">
+        <div class="notice-grid">
+          <div class="serverside-feature">
+            <h2>WANT MORE?</h2>
+            <p>The free version is singleplayer-focused to comply with CurseForge guidelines. Get the full version through Patreon or the website for wider access.</p>
+            <p class="patreon-emphasis">You also get access to in dev features and exclusive features from the Patreon.</p>
+            <a class="patreon-link" href="https://www.patreon.com/c/thetruetrident/membership">Patreon</a>
+          </div>
+        </div>
+
+        <div class="feature-showcase">
+          <div class="section-heading">
+            <p>entirely configurable</p>
+            <h2>features</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card feature-card-media">
+              <img src="images/movement-sync.png" alt="">
+              <h3>Movement Syncing</h3>
+              <p>Monitors the target's lateral movement and uses your movement keys to hold spacing, chase when they move away, or back off when they close the gap.</p>
+            </article>
+            <article class="feature-card feature-card-media">
+              <img src="images/movement-resisting.png" alt="">
+              <h3>Movement Resisting</h3>
+              <p>Creates a clientside target-centered spacing bubble that helps prevent accidental over-commits while still allowing free movement when you are already deep inside the bubble.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Jump Following</h3>
+              <p>Triggers a sprinting jump when you are far away from your target, helping you close distance with cleaner pressure.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Movement Equalizer</h3>
+              <p>Can stop or reverse backward syncing when a sprinting target enters your range, preparing you to counter with a jump or parry crit attempt.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Bubble Escape</h3>
+              <p>Chooses the fastest movement key press to help you escape out of the spacing bubble more easily.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Sprint Hit Follow Through</h3>
+              <p>Jumps after a sprint hit so you can maintain pressure instead of being left behind the resist boundary.</p>
+            </article>
+            <article class="feature-card">
+              <h3>S Tapping</h3>
+              <p>Automatically taps S after successful strikes to reset spacing and keep sword pressure cleaner.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Free Hitting</h3>
+              <p>Helps you only hit your opponent when they are actually in range.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Visual &amp; Sound Effects</h3>
+              <p>Clientside particles and sound effects help you read the resist boundary and spacing behavior.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="server-guide">
+          <div class="section-heading">
+            <p>recommended settings as of August 29, 2026</p>
+            <h2>TESTED ON SERVERS</h2>
+          </div>
+          <p class="server-note">If this list is inaccurate, warn others in the <a href="https://discord.com/invite/5Ss9gvSPWP">DISCORD</a>. Spam clicking while using these may create duplicate packets, which can be detected.</p>
+          <div class="server-columns">
+            <article>
+              <h3>MCPVP</h3>
+              <ul>
+                <li>Shield Disable</li>
+                <li>SmartSword</li>
+                <li>Movement Sync</li>
+                <li>Movement Resist</li>
+                <li>S Tapping</li>
+                <li>Jump Following</li>
+                <li>Movement Equalizer</li>
+                <li>Bubble Escape</li>
+                <li>Sprint Hit Follow Through</li>
+                <li>Free Hitting</li>
+                <li>Auto WTap / Autosprint</li>
+                <li>Jump Resetting</li>
+                <li>Combo Counter</li>
+                <li>Visual Effects</li>
+                <li>Sound Effects</li>
+              </ul>
+            </article>
+            <article>
+              <h3>mcpvp.com</h3>
+              <ul>
+                <li>Shield Disable</li>
+                <li>SmartSword</li>
+                <li>Movement Sync</li>
+                <li>Movement Resist</li>
+                <li>S Tapping</li>
+                <li>Jump Following</li>
+                <li>Movement Equalizer</li>
+                <li>Bubble Escape</li>
+                <li>Sprint Hit Follow Through</li>
+                <li>Free Hitting</li>
+                <li>Auto WTap / Autosprint</li>
+                <li>Jump Resetting</li>
+                <li>Combo Counter</li>
+                <li>Visual Effects</li>
+                <li>Sound Effects</li>
+              </ul>
+            </article>
+            <article>
+              <h3>PVPHQ</h3>
+              <ul>
+                <li>Shield Disable</li>
+                <li>SmartSword</li>
+                <li>Movement Sync</li>
+                <li>Movement Resist</li>
+                <li>S Tapping</li>
+                <li>Jump Following</li>
+                <li>Movement Equalizer</li>
+                <li>Bubble Escape</li>
+                <li>Sprint Hit Follow Through</li>
+                <li>Free Hitting</li>
+                <li>Auto WTap / Autosprint</li>
+                <li>Jump Resetting</li>
+                <li>Combo Counter</li>
+                <li>Visual Effects</li>
+                <li>Sound Effects</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <section id="downloads" class="downloads-section">
+          <div class="section-heading">
+            <p>quick downloads</p>
+            <h2>downloads</h2>
+          </div>
+          <div class="download-grid">
+            <article class="download-card download-card-disabled">
+              <h3>Swordcore 26.2</h3>
+              <p>Free nonpremium JAR coming soon</p>
+              <span class="download-link" aria-disabled="true">Download JAR</span>
+            </article>
+            <article class="download-card download-card-disabled">
+              <h3>Swordcore 1.21.11</h3>
+              <p>Free nonpremium JAR coming soon</p>
+              <span class="download-link" aria-disabled="true">Download JAR</span>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -50,6 +50,12 @@
   --arrow-hover-filter: brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(7447%) hue-rotate(315deg) brightness(102%) contrast(105%);
 }
 
+.theme-sword {
+  --accent: #006bff;
+  --accent-shift: #00e5ff;
+  --arrow-hover-filter: brightness(0) saturate(100%) invert(33%) sepia(96%) saturate(3447%) hue-rotate(210deg) brightness(102%) contrast(105%);
+}
+
 .theme-disguiser {
   --accent: #f5d04c;
   --accent-shift: #00e5ff;
@@ -997,6 +1003,32 @@ body {
 .server-columns h3 {
   font-size: 28px;
   line-height: 1;
+}
+
+.feature-card-media {
+  overflow: hidden;
+  padding: 0;
+}
+
+.feature-card-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.feature-card-media h3,
+.feature-card-media p {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.feature-card-media h3 {
+  margin-top: 24px;
+}
+
+.feature-card-media p {
+  margin-bottom: 24px;
 }
 
 .server-note {
