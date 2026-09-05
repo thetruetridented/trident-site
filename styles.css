@@ -202,6 +202,40 @@ body {
   color: white;
 }
 
+.rankings-explainer {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 28px 0 0;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.rankings-explainer summary {
+  width: fit-content;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 150ms ease;
+}
+
+.rankings-explainer summary:hover {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.rankings-explainer p {
+  max-width: 900px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
 .rankings-hero,
 .rankings-board-inner {
   width: min(1180px, calc(100% - 48px));
