@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Browse top Brawlhalla ranked players by legend.">
+    <meta name="theme-color" content="#ff0000">
+    <title>brawlhalla rankings</title>
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles.css?v=20260905-1">
+  </head>
+  <body class="theme-brawlhalla-rankings">
+    <header class="site-header">
+      <nav class="navbar">
+        <a class="home-logo" href="../../index.html" aria-label="Home">
+          <img src="../../images/dvd.png" alt="">
+        </a>
+        <h1 class="titlebar">THETRUETRIDENT</h1>
+        <div class="brawlhalla-nav">
+          <a href="../maps/">maps</a>
+          <a href="../mlojnir/">mlojnir</a>
+          <a href="../colors/">colors</a>
+          <a class="active" href="./">rankings</a>
+          <a href="https://www.youtube.com/@thetruetrident">content</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="rankings-page">
+      <section class="rankings-hero">
+        <div>
+          <p class="rankings-kicker">BRAWLHALLA LEGEND LEADERBOARD</p>
+          <h1>RANKINGS</h1>
+        </div>
+        <form class="rankings-controls" aria-label="Ranking controls">
+          <label for="legend-select">
+            <span>LEGEND</span>
+            <select id="legend-select" disabled>
+              <option>Loading legends</option>
+            </select>
+          </label>
+        </form>
+      </section>
+
+      <section class="rankings-board" aria-label="Legend rankings">
+        <div class="rankings-summary">
+          <div>
+            <span>selected legend</span>
+            <strong id="legend-name">loading</strong>
+          </div>
+          <div>
+            <span>sort</span>
+            <strong>current elo</strong>
+          </div>
+          <div>
+            <span>source</span>
+            <strong>official api</strong>
+          </div>
+        </div>
+
+        <p id="rankings-status" class="rankings-status" role="status" aria-live="polite">Loading Brawlhalla legends...</p>
+
+        <div class="rankings-table-wrap">
+          <table class="rankings-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>player</th>
+                <th>legend elo</th>
+                <th>overall elo</th>
+                <th>peak</th>
+                <th>record</th>
+                <th>region</th>
+                <th>tier</th>
+              </tr>
+            </thead>
+            <tbody id="rankings-body">
+              <tr>
+                <td colspan="8">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="rankings.js?v=20260905-1"></script>
+  </body>
+</html>
