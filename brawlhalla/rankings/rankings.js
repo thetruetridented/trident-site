@@ -4,12 +4,13 @@ const PAGE_SIZE = 50;
 const CONCURRENCY = 8;
 
 const legendSelect = document.getElementById("legend-select");
-const legendName = document.getElementById("legend-name");
+const regionSelect = document.getElementById("region-select");
 const statusLine = document.getElementById("rankings-status");
 const rankingsBody = document.getElementById("rankings-body");
 
 const statsCache = new Map();
 let leaderboard = [];
+let activeRequest = 0;
 
 function setStatus(message) {
   statusLine.textContent = message;
@@ -51,11 +52,11 @@ async function loadLegends() {
   return legends.sort((a, b) => a.legend_name.localeCompare(b.legend_name));
 }
 
-async function loadLeaderboard() {
+async function loadLeaderboard(region) {
   const requests = [];
 
   for (let page = 1; page <= SCAN_PAGES; page += 1) {
-    requests.push(fetchJson(`${API_ROOT}/leaderboard/ranked?game_mode=1v1&region=ALL&order_by=rating&max_results=${PAGE_SIZE}&page=${page}`));
+    requests.push(fetchJson(`${API_ROOT}/leaderboard/ranked?game_mode=1v1&region=${encodeURIComponent(region)}&order_by=rating&max_results=${PAGE_SIZE}&page=${page}`));
   }
 
   const pages = await Promise.all(requests);
@@ -91,7 +92,7 @@ async function loadPlayerStats(playerId) {
 
 function renderRows(rows) {
   if (!rows.length) {
-    rankingsBody.innerHTML = `<tr><td colspan="8">No legend results found in the scanned current leaderboard pages.</td></tr>`;
+    rankingsBody.innerHTML = `<li class="rankings-empty">No legend results found in the scanned current leaderboard pages.</li>`;
     return;
   }
 
@@ -99,33 +100,40 @@ function renderRows(rows) {
     .map((row, index) => {
       const record = `${row.legendWins}-${Math.max(row.legendGames - row.legendWins, 0)}`;
       return `
-        <tr>
-          <td>${index + 1}</td>
-          <td>
-            <strong>${escapeHtml(row.name)}</strong>
+        <li class="ranking-card">
+          <span class="ranking-position">${index + 1}</span>
+          <strong class="ranking-player">${escapeHtml(row.name)}</strong>
+          <span class="ranking-elo">${escapeHtml(row.legendRating)}</span>
+          <div class="ranking-details">
             <span>global #${escapeHtml(row.rank)}</span>
-          </td>
-          <td>${escapeHtml(row.legendRating)}</td>
-          <td>${escapeHtml(row.rating)}</td>
-          <td>${escapeHtml(row.legendPeak)}</td>
-          <td>${escapeHtml(record)}</td>
-          <td>${escapeHtml(row.region)}</td>
-          <td>${escapeHtml(row.legendTier || row.tier)}</td>
-        </tr>
+            <span>overall ${escapeHtml(row.rating)}</span>
+            <span>peak ${escapeHtml(row.legendPeak)}</span>
+            <span>${escapeHtml(record)}</span>
+            <span>${escapeHtml(row.region)}</span>
+            <span>${escapeHtml(row.legendTier || row.tier)}</span>
+          </div>
+        </li>
       `;
     })
     .join("");
 }
 
 async function renderLegendRankings() {
+  const requestId = activeRequest + 1;
+  activeRequest = requestId;
   const legendId = Number(legendSelect.value);
   const selectedOption = legendSelect.options[legendSelect.selectedIndex];
   const name = selectedOption?.textContent || "selected legend";
-  legendName.textContent = name;
-  rankingsBody.innerHTML = `<tr><td colspan="8">Scanning current ranked players...</td></tr>`;
-  setStatus(`Scanning the top ${SCAN_PAGES * PAGE_SIZE} current 1v1 ranked players for ${name}.`);
+  const region = regionSelect.value;
+  rankingsBody.innerHTML = `<li class="rankings-empty">Scanning current ranked players...</li>`;
+  setStatus(`Scanning the top ${SCAN_PAGES * PAGE_SIZE} current ${region} 1v1 ranked players for ${name}.`);
 
   try {
+    leaderboard = await loadLeaderboard(region);
+    if (requestId !== activeRequest) {
+      return;
+    }
+
     const rows = await runPool(leaderboard, async (ranking) => {
       const player = ranking.players?.[0];
       if (!player?.id) {
@@ -153,23 +161,26 @@ async function renderLegendRankings() {
       };
     });
 
+    if (requestId !== activeRequest) {
+      return;
+    }
+
     const filteredRows = rows
       .filter(Boolean)
       .sort((a, b) => Number(b.legendRating || 0) - Number(a.legendRating || 0) || Number(b.rating || 0) - Number(a.rating || 0))
       .slice(0, 50);
 
     renderRows(filteredRows);
-    setStatus(`Showing ${filteredRows.length} ${name} players from the current top ${SCAN_PAGES * PAGE_SIZE} ranked 1v1 scan.`);
+    setStatus(`Showing ${filteredRows.length} ${name} players from the current top ${SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
   } catch (error) {
-    rankingsBody.innerHTML = `<tr><td colspan="8">Could not load rankings right now.</td></tr>`;
+    rankingsBody.innerHTML = `<li class="rankings-empty">Could not load rankings right now.</li>`;
     setStatus(`${error.message}. Try refreshing in a minute.`);
   }
 }
 
 async function init() {
   try {
-    const [legends, loadedLeaderboard] = await Promise.all([loadLegends(), loadLeaderboard()]);
-    leaderboard = loadedLeaderboard;
+    const legends = await loadLegends();
 
     legendSelect.innerHTML = legends
       .map((legend) => `<option value="${escapeHtml(legend.legend_id)}">${escapeHtml(legend.legend_name)}</option>`)
@@ -182,10 +193,11 @@ async function init() {
     }
 
     legendSelect.addEventListener("change", renderLegendRankings);
+    regionSelect.addEventListener("change", renderLegendRankings);
     await renderLegendRankings();
   } catch (error) {
     legendSelect.innerHTML = `<option>API unavailable</option>`;
-    rankingsBody.innerHTML = `<tr><td colspan="8">Could not connect to the Brawlhalla API.</td></tr>`;
+    rankingsBody.innerHTML = `<li class="rankings-empty">Could not connect to the Brawlhalla API.</li>`;
     setStatus(`${error.message}.`);
   }
 }

@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#ff0000">
     <title>brawlhalla rankings</title>
     <link rel="icon" type="image/png" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles.css?v=20260905-1">
+    <link rel="stylesheet" href="../../styles.css?v=20260905-2">
   </head>
   <body class="theme-brawlhalla-rankings">
     <header class="site-header">
@@ -39,51 +39,33 @@
               <option>Loading legends</option>
             </select>
           </label>
+          <label for="region-select">
+            <span>REGION</span>
+            <select id="region-select">
+              <option value="US-E" selected>US-E</option>
+              <option value="US-W">US-W</option>
+              <option value="EU">EU</option>
+              <option value="SEA">SEA</option>
+              <option value="BRZ">BRZ</option>
+              <option value="AUS">AUS</option>
+              <option value="JPS">JPS</option>
+              <option value="SA">SA</option>
+              <option value="ME">ME</option>
+              <option value="ALL">ALL</option>
+            </select>
+          </label>
         </form>
       </section>
 
       <section class="rankings-board" aria-label="Legend rankings">
-        <div class="rankings-summary">
-          <div>
-            <span>selected legend</span>
-            <strong id="legend-name">loading</strong>
-          </div>
-          <div>
-            <span>sort</span>
-            <strong>current elo</strong>
-          </div>
-          <div>
-            <span>source</span>
-            <strong>official api</strong>
-          </div>
-        </div>
-
         <p id="rankings-status" class="rankings-status" role="status" aria-live="polite">Loading Brawlhalla legends...</p>
 
-        <div class="rankings-table-wrap">
-          <table class="rankings-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>player</th>
-                <th>legend elo</th>
-                <th>overall elo</th>
-                <th>peak</th>
-                <th>record</th>
-                <th>region</th>
-                <th>tier</th>
-              </tr>
-            </thead>
-            <tbody id="rankings-body">
-              <tr>
-                <td colspan="8">Loading...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ol id="rankings-body" class="rankings-list">
+          <li class="rankings-empty">Loading...</li>
+        </ol>
       </section>
     </main>
 
-    <script src="rankings.js?v=20260905-1"></script>
+    <script src="rankings.js?v=20260905-2"></script>
   </body>
 </html>
