@@ -304,26 +304,26 @@ body {
 .ranking-card,
 .rankings-empty {
   min-height: 112px;
-  padding: 22px 7vw;
+  padding: 22px 12vw;
   background: black;
 }
 
 .ranking-card {
   position: relative;
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) auto;
-  gap: 18px;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(170px, auto);
+  gap: 28px;
   align-items: center;
   justify-items: start;
   overflow: hidden;
 }
 
 .ranking-card:nth-child(even) {
-  background: #c90016;
+  background: #202020;
 }
 
 .ranking-card:nth-child(even) .ranking-position {
-  color: black;
+  color: var(--accent);
 }
 
 .ranking-position {
@@ -348,12 +348,12 @@ body {
 
 .ranking-details {
   position: absolute;
-  right: 7vw;
+  right: calc(12vw + 190px);
   top: 50%;
-  left: calc(7vw + 74px);
+  left: calc(12vw + 84px);
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 8px 14px;
   color: rgba(255, 255, 255, 0.5);
@@ -861,12 +861,12 @@ body {
 
   .ranking-card,
   .rankings-empty {
-    padding-right: 24px;
-    padding-left: 24px;
+    padding-right: 32px;
+    padding-left: 32px;
   }
 
   .ranking-card {
-    grid-template-columns: 42px minmax(0, 1fr) auto;
+    grid-template-columns: 42px minmax(0, 1fr) minmax(100px, auto);
     gap: 12px;
   }
 
@@ -879,8 +879,8 @@ body {
   }
 
   .ranking-details {
-    right: 24px;
-    left: 78px;
+    right: 148px;
+    left: 86px;
   }
 }
 
