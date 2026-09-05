@@ -57,6 +57,8 @@ const pushbyteReadout = document.querySelector("#pushbyte-readout");
 const paletteName = document.querySelector("#palette-name");
 const paletteImport = document.querySelector("#palette-import");
 const presetPalette = document.querySelector("#preset-palette");
+const swfPaletteDialog = document.querySelector("#swf-palette-dialog");
+const swfPaletteChoices = document.querySelector("#swf-palette-choices");
 let backendReady = false;
 let hueBase = null;
 let applyingHue = false;
@@ -212,13 +214,56 @@ function parsePcodePalette(text, fallbackName) {
 }
 
 async function importPaletteFile(file) {
-  const text = await file.text();
   const fallbackName = file.name.replace(/\.[^.]+$/, "") || "Imported Palette";
   const extension = file.name.split(".").pop().toLowerCase();
+  if (extension === "swf") return importSwfPalette(file);
+  const text = await file.text();
   if (extension === "json") return parseJsonPalette(text, fallbackName);
   if (extension === "xml") return parseXmlPalette(text, fallbackName);
   if (extension === "pcode") return parsePcodePalette(text, fallbackName);
-  throw new Error("Choose a .json, .xml, or .pcode palette file.");
+  throw new Error("Choose a .json, .xml, .pcode, or .swf palette file.");
+}
+
+async function importSwfPalette(file) {
+  status.textContent = "Scanning the SWF for custom colors...";
+  status.className = "form-status visible";
+  const response = await fetch(`${API_ROOT}/api/colorswap/extract`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ filename: file.name, swfBase64: await readAsBase64(file) })
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error || "The backend could not inspect this SWF.");
+  if (!Array.isArray(payload.palettes) || !payload.palettes.length) throw new Error("No custom colors were detected in this SWF.");
+  const selected = payload.palettes.length === 1 ? payload.palettes[0] : await chooseRecoveredPalette(payload.palettes);
+  if (!selected) throw new Error("SWF import cancelled.");
+  const slotName = REPLACEMENT_COLORS[selected.pushbyteIndex - 1] || `Slot ${selected.pushbyteIndex}`;
+  return { name: `Recovered ${slotName}`, colors: selected.colors };
+}
+
+function chooseRecoveredPalette(palettes) {
+  return new Promise((resolve) => {
+    swfPaletteChoices.innerHTML = "";
+    let settled = false;
+    const finish = (palette) => {
+      if (settled) return;
+      settled = true;
+      swfPaletteDialog.close();
+      resolve(palette);
+    };
+    palettes.forEach((palette) => {
+      const slotName = REPLACEMENT_COLORS[palette.pushbyteIndex - 1] || `Slot ${palette.pushbyteIndex}`;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "swf-palette-choice";
+      button.innerHTML = `<span>${slotName}</span><small>slot ${palette.pushbyteIndex}</small>`;
+      button.addEventListener("click", () => finish(palette), { once: true });
+      swfPaletteChoices.append(button);
+    });
+    document.querySelector("#cancel-swf-palette").onclick = () => finish(null);
+    swfPaletteDialog.oncancel = (event) => { event.preventDefault(); finish(null); };
+    swfPaletteDialog.showModal();
+  });
 }
 
 function fileIsValid(file, expectedName) {

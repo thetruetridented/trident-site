@@ -83,7 +83,7 @@
                 <span>PALETTE NAME</span>
                 <input id="palette-name" type="text" value="Test Palette" maxlength="80">
               </label>
-              <input id="palette-import" class="visually-hidden" type="file" accept=".json,.xml,.pcode,application/json,text/xml,text/plain">
+              <input id="palette-import" class="visually-hidden" type="file" accept=".json,.xml,.pcode,.swf,application/json,text/xml,text/plain,application/x-shockwave-flash">
               <button id="import-palette" class="outline-button" type="button">IMPORT</button>
               <button id="export-palette-json" class="outline-button" type="button">EXPORT JSON</button>
               <button id="export-palette-xml" class="outline-button" type="button">EXPORT XML</button>
@@ -98,7 +98,7 @@
             </label>
             <div id="palette-groups" class="palette-groups"></div>
           </div>
-          <p class="palette-note">Import Trident JSON, ColorModder XML, or exported P-code. Black (#000000) can make the game use the skin's default color. Indicator color is not part of the in-game swap.</p>
+          <p class="palette-note">Import Trident JSON, ColorModder XML, exported P-code, or a previously modified UI_MainMenu SWF. Black (#000000) can make the game use the skin's default color. Indicator color is not part of the in-game swap.</p>
         </section>
 
         <section class="build-section">
@@ -121,8 +121,18 @@
         <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
         <p class="colorforge-credit">credit to brokeboiroland for publicising the method, I just automated it - thetruetrident</p>
       </form>
+
+      <dialog id="swf-palette-dialog" class="swf-palette-dialog">
+        <div class="swf-palette-dialog-inner">
+          <p class="workbench-label">IMPORTED SWF</p>
+          <h2>CHOOSE A COLOR</h2>
+          <p>Multiple custom colors were found. Select the one you want to edit.</p>
+          <div id="swf-palette-choices" class="swf-palette-choices"></div>
+          <button id="cancel-swf-palette" class="outline-button" type="button">CANCEL</button>
+        </div>
+      </dialog>
     </main>
 
-    <script src="colors.js?v=20260819-1"></script>
+    <script src="colors.js?v=20260905-1"></script>
   </body>
 </html>

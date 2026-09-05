@@ -696,6 +696,35 @@ body {
 .color-control code { display: block; overflow: hidden; margin-top: 6px; color: rgba(0, 0, 0, 0.62); font-size: 9px; text-align: center; text-overflow: ellipsis; }
 .palette-note { margin: 20px 0 0; color: rgba(0, 0, 0, 0.62); font-family: Arial, sans-serif; font-size: 12px; }
 
+.swf-palette-dialog {
+  width: min(92vw, 620px);
+  padding: 0;
+  border: 0;
+  background: white;
+  color: black;
+}
+.swf-palette-dialog::backdrop { background: rgba(0, 0, 0, 0.78); }
+.swf-palette-dialog-inner { padding: 30px; }
+.swf-palette-dialog h2 { margin: 5px 0 10px; font-size: clamp(30px, 6vw, 54px); }
+.swf-palette-dialog p:not(.workbench-label) { margin: 0 0 20px; font-family: Arial, Helvetica, sans-serif; }
+.swf-palette-choices { display: grid; gap: 8px; max-height: min(50vh, 430px); margin-bottom: 18px; overflow-y: auto; }
+.swf-palette-choice {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 15px 17px;
+  border: 0;
+  background: #f2f2f2;
+  color: black;
+  cursor: pointer;
+  text-align: left;
+}
+.swf-palette-choice:hover,
+.swf-palette-choice:focus-visible { background: var(--accent); color: white; }
+.swf-palette-choice small { font-family: Arial, Helvetica, sans-serif; opacity: 0.7; }
+
 .build-section {
   display: grid;
   grid-template-columns: 1fr auto;
