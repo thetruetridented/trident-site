@@ -10,8 +10,8 @@ const statusLine = document.getElementById("rankings-status");
 const rankingsBody = document.getElementById("rankings-body");
 
 const statsCache = new Map();
-const PRO_PLAYER_IDS = new Set(["4077949", "20778713"]);
-const CONTENT_CREATOR_PLAYER_IDS = new Set(["3666461"]);
+const PRO_PLAYER_IDS = new Set(["4077949", "20778713", "42206820"]);
+const CONTENT_CREATOR_PLAYER_IDS = new Set(["3666461", "42206820"]);
 const SEMI_PRO_PLAYER_IDS = new Set(["97534882", "20849670", "84122951", "1546291"]);
 let leaderboard = [];
 let activeRequest = 0;
