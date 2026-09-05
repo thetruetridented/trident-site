@@ -9,6 +9,7 @@ const statusLine = document.getElementById("rankings-status");
 const rankingsBody = document.getElementById("rankings-body");
 
 const statsCache = new Map();
+const PRO_PLAYER_IDS = new Set(["4077949"]);
 let leaderboard = [];
 let activeRequest = 0;
 let legendsById = new Map();
@@ -52,6 +53,16 @@ function updateLegendUrl() {
   if (window.location.pathname !== nextPath) {
     history.replaceState(null, "", nextPath);
   }
+}
+
+function playerTags(playerId) {
+  const tags = [];
+
+  if (PRO_PLAYER_IDS.has(String(playerId))) {
+    tags.push("PRO");
+  }
+
+  return tags;
 }
 
 async function fetchJson(url) {
@@ -128,10 +139,13 @@ function renderRows(rows) {
   rankingsBody.innerHTML = rows
     .map((row, index) => {
       const record = `${row.legendWins}-${Math.max(row.legendGames - row.legendWins, 0)}`;
+      const tags = playerTags(row.playerId)
+        .map((tag) => `<span class="player-tag player-tag-pro">${escapeHtml(tag)}</span>`)
+        .join("");
       return `
         <li class="ranking-card">
           <span class="ranking-position">${index + 1}</span>
-          <strong class="ranking-player">${escapeHtml(row.name)}</strong>
+          <strong class="ranking-player">${escapeHtml(row.name)}${tags}</strong>
           <span class="ranking-elo">${escapeHtml(row.legendRating)}</span>
           <div class="ranking-details">
             <span>global #${escapeHtml(row.rank)}</span>

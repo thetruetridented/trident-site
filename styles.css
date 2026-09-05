@@ -333,11 +333,30 @@ body {
 }
 
 .ranking-player {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: white;
   font-size: 34px;
   line-height: 1;
   overflow-wrap: anywhere;
+}
+
+.player-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.player-tag-pro {
+  background: #ff0000;
 }
 
 .ranking-elo {
