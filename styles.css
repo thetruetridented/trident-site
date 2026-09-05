@@ -359,6 +359,16 @@ body {
   background: #ff0000;
 }
 
+.player-tag-content-creator {
+  background: white;
+  color: black;
+}
+
+.player-tag-semi-pro {
+  background: linear-gradient(90deg, #ff0000 0%, #ffd400 100%);
+  color: white;
+}
+
 .ranking-elo {
   color: white;
   font-size: 56px;

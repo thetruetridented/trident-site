@@ -10,7 +10,9 @@ const statusLine = document.getElementById("rankings-status");
 const rankingsBody = document.getElementById("rankings-body");
 
 const statsCache = new Map();
-const PRO_PLAYER_IDS = new Set(["4077949"]);
+const PRO_PLAYER_IDS = new Set(["4077949", "20778713"]);
+const CONTENT_CREATOR_PLAYER_IDS = new Set(["3666461"]);
+const SEMI_PRO_PLAYER_IDS = new Set(["97534882", "20849670", "84122951"]);
 let leaderboard = [];
 let activeRequest = 0;
 let legendsById = new Map();
@@ -60,7 +62,15 @@ function playerTags(playerId) {
   const tags = [];
 
   if (PRO_PLAYER_IDS.has(String(playerId))) {
-    tags.push("PRO");
+    tags.push({ label: "PRO", className: "player-tag-pro" });
+  }
+
+  if (CONTENT_CREATOR_PLAYER_IDS.has(String(playerId))) {
+    tags.push({ label: "CONTENT CREATOR", className: "player-tag-content-creator" });
+  }
+
+  if (SEMI_PRO_PLAYER_IDS.has(String(playerId))) {
+    tags.push({ label: "SEMI PRO", className: "player-tag-semi-pro" });
   }
 
   return tags;
@@ -141,7 +151,7 @@ function renderRows(rows) {
     .map((row, index) => {
       const record = `${row.legendWins}-${Math.max(row.legendGames - row.legendWins, 0)}`;
       const tags = playerTags(row.playerId)
-        .map((tag) => `<span class="player-tag player-tag-pro">${escapeHtml(tag)}</span>`)
+        .map((tag) => `<span class="player-tag ${escapeHtml(tag.className)}">${escapeHtml(tag.label)}</span>`)
         .join("");
       return `
         <li class="ranking-card">
@@ -182,16 +192,34 @@ async function renderLegendRankings() {
 
     renderRows(payload.rankings || []);
     setStatus(`Showing ${payload.rankings?.length || 0} saved ${name} players from the top ${payload.scannedCount || SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
+
+    if (payload.refreshing) {
+      const freshPayload = await loadCachedLegendRankings({ legendId, legendName: name, region, fresh: true });
+
+      if (requestId !== activeRequest) {
+        return;
+      }
+
+      if (freshPayload.changed) {
+        renderRows(freshPayload.rankings || []);
+        setStatus(`Updated ${name} rankings from the latest ${region} scan.`);
+      } else {
+        setStatus(`Showing saved ${name} rankings. No higher elo or spot changes found in the latest ${region} scan.`);
+      }
+    }
   } catch (error) {
     await renderDirectLegendRankings({ requestId, legendId, name, region, note: "Render cache is waking up, using live API fallback." });
   }
 }
 
-async function loadCachedLegendRankings({ legendId, legendName, region }) {
+async function loadCachedLegendRankings({ legendId, legendName, region, fresh = false }) {
   const url = new URL("/api/brawlhalla/rankings", CACHE_API_ROOT);
   url.searchParams.set("legend_id", legendId);
   url.searchParams.set("legend_name", legendName);
   url.searchParams.set("region", region);
+  if (fresh) {
+    url.searchParams.set("fresh", "1");
+  }
   return fetchJson(url);
 }
 
