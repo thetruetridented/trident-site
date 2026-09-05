@@ -348,12 +348,12 @@ body {
 
 .ranking-details {
   position: absolute;
-  right: calc(12vw + 190px);
+  right: calc(12vw + 220px);
   top: 50%;
   left: calc(12vw + 84px);
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: 8px 14px;
   color: rgba(255, 255, 255, 0.5);
@@ -363,6 +363,7 @@ body {
   letter-spacing: 0.08em;
   line-height: 1;
   opacity: 0;
+  text-align: center;
   text-transform: uppercase;
   transform: translateY(calc(-50% + 6px));
   transition: opacity 150ms ease, transform 150ms ease;
@@ -879,7 +880,7 @@ body {
   }
 
   .ranking-details {
-    right: 148px;
+    right: 132px;
     left: 86px;
   }
 }

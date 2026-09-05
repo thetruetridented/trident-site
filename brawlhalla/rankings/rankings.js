@@ -11,6 +11,7 @@ const rankingsBody = document.getElementById("rankings-body");
 const statsCache = new Map();
 let leaderboard = [];
 let activeRequest = 0;
+let legendsById = new Map();
 
 function setStatus(message) {
   statusLine.textContent = message;
@@ -23,6 +24,34 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function legendSlug(name) {
+  return String(name || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+function requestedLegendSlug() {
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  const rankingsIndex = parts.indexOf("rankings");
+  return rankingsIndex >= 0 ? parts[rankingsIndex + 1] || "" : "";
+}
+
+function updateLegendUrl() {
+  const legend = legendsById.get(String(legendSelect.value));
+  if (!legend) {
+    return;
+  }
+
+  const slug = legendSlug(legend.legend_name);
+  const nextPath = `/brawlhalla/rankings/${slug}/`;
+  if (window.location.pathname !== nextPath) {
+    history.replaceState(null, "", nextPath);
+  }
 }
 
 async function fetchJson(url) {
@@ -106,6 +135,7 @@ function renderRows(rows) {
           <span class="ranking-elo">${escapeHtml(row.legendRating)}</span>
           <div class="ranking-details">
             <span>global #${escapeHtml(row.rank)}</span>
+            <span>id ${escapeHtml(row.playerId)}</span>
             <span>overall ${escapeHtml(row.rating)}</span>
             <span>peak ${escapeHtml(row.legendPeak)}</span>
             <span>${escapeHtml(record)}</span>
@@ -140,7 +170,13 @@ async function renderLegendRankings() {
         return null;
       }
 
-      const stats = await loadPlayerStats(player.id);
+      let stats;
+      try {
+        stats = await loadPlayerStats(player.id);
+      } catch {
+        return null;
+      }
+
       const legend = (stats.legends || []).find((entry) => Number(entry.legend_id) === legendId);
 
       if (!legend || Number(legend.games || 0) <= 0) {
@@ -148,6 +184,7 @@ async function renderLegendRankings() {
       }
 
       return {
+        playerId: player.id,
         name: player.username || stats.name || `Player ${player.id}`,
         rank: ranking.rank,
         rating: ranking.rating,
@@ -181,18 +218,24 @@ async function renderLegendRankings() {
 async function init() {
   try {
     const legends = await loadLegends();
+    legendsById = new Map(legends.map((legend) => [String(legend.legend_id), legend]));
 
     legendSelect.innerHTML = legends
       .map((legend) => `<option value="${escapeHtml(legend.legend_id)}">${escapeHtml(legend.legend_name)}</option>`)
       .join("");
     legendSelect.disabled = false;
 
-    const defaultLegend = legends.find((legend) => legend.legend_name.toLowerCase() === "bodvar") || legends[0];
+    const pathSlug = requestedLegendSlug();
+    const pathLegend = legends.find((legend) => legendSlug(legend.legend_name) === pathSlug);
+    const defaultLegend = pathLegend || legends.find((legend) => legend.legend_name.toLowerCase() === "bodvar") || legends[0];
     if (defaultLegend) {
       legendSelect.value = defaultLegend.legend_id;
     }
 
-    legendSelect.addEventListener("change", renderLegendRankings);
+    legendSelect.addEventListener("change", () => {
+      updateLegendUrl();
+      renderLegendRankings();
+    });
     regionSelect.addEventListener("change", renderLegendRankings);
     await renderLegendRankings();
   } catch (error) {
