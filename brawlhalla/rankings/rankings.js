@@ -1,4 +1,5 @@
 const API_ROOT = "https://api.brawlhalla.com/v1";
+const CACHE_API_ROOT = "https://sussyrakas.onrender.com";
 const SCAN_PAGES = 3;
 const PAGE_SIZE = 50;
 const CONCURRENCY = 8;
@@ -170,7 +171,32 @@ async function renderLegendRankings() {
   const name = selectedOption?.textContent || "selected legend";
   const region = regionSelect.value;
   rankingsBody.innerHTML = `<li class="rankings-empty">Scanning current ranked players...</li>`;
-  setStatus(`Scanning the top ${SCAN_PAGES * PAGE_SIZE} current ${region} 1v1 ranked players for ${name}.`);
+  setStatus(`Checking saved ${region} ${name} rankings.`);
+
+  try {
+    const payload = await loadCachedLegendRankings({ legendId, legendName: name, region });
+
+    if (requestId !== activeRequest) {
+      return;
+    }
+
+    renderRows(payload.rankings || []);
+    setStatus(`Showing ${payload.rankings?.length || 0} saved ${name} players from the top ${payload.scannedCount || SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
+  } catch (error) {
+    await renderDirectLegendRankings({ requestId, legendId, name, region, note: "Render cache is waking up, using live API fallback." });
+  }
+}
+
+async function loadCachedLegendRankings({ legendId, legendName, region }) {
+  const url = new URL("/api/brawlhalla/rankings", CACHE_API_ROOT);
+  url.searchParams.set("legend_id", legendId);
+  url.searchParams.set("legend_name", legendName);
+  url.searchParams.set("region", region);
+  return fetchJson(url);
+}
+
+async function renderDirectLegendRankings({ requestId, legendId, name, region, note }) {
+  setStatus(`${note} Scanning the top ${SCAN_PAGES * PAGE_SIZE} current ${region} 1v1 ranked players for ${name}.`);
 
   try {
     leaderboard = await loadLeaderboard(region);
@@ -222,7 +248,7 @@ async function renderLegendRankings() {
       .slice(0, 50);
 
     renderRows(filteredRows);
-    setStatus(`Showing ${filteredRows.length} ${name} players from the current top ${SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
+    setStatus(`Showing ${filteredRows.length} live ${name} players from the current top ${SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
   } catch (error) {
     rankingsBody.innerHTML = `<li class="rankings-empty">Could not load rankings right now.</li>`;
     setStatus(`${error.message}. Try refreshing in a minute.`);
