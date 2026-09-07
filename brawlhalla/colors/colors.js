@@ -39,6 +39,16 @@ const REPLACEMENT_COLORS = [
   "Skyforged", "Goldforged", "Crystalforged", "RGB", "CMYK", "Blacklight", "Community Colors", "Community Colors v2", "Esports v1",
   "Esports v2", "Esports v3", "Esports v4", "Esports v5", "Esports v6", "Esports v7", "Guild Colors"
 ];
+const TEAM_COLOR_TARGETS = [
+  ["Red Team · Player 1", "TeamRed1"], ["Red Team · Player 2", "TeamRed2"],
+  ["Red Team · Player 3", "TeamRed3"], ["Red Team · Player 4", "TeamRed4"],
+  ["Blue Team · Player 1", "TeamBlue1"], ["Blue Team · Player 2", "TeamBlue2"],
+  ["Blue Team · Player 3", "TeamBlue3"], ["Blue Team · Player 4", "TeamBlue4"],
+  ["Yellow Team · Player 1", "TeamYellow1"], ["Yellow Team · Player 2", "TeamYellow2"],
+  ["Yellow Team · Player 3", "TeamYellow3"], ["Yellow Team · Player 4", "TeamYellow4"],
+  ["Purple Team · Player 1", "TeamPurple1"], ["Purple Team · Player 2", "TeamPurple2"],
+  ["Purple Team · Player 3", "TeamPurple3"], ["Purple Team · Player 4", "TeamPurple4"],
+];
 
 const LABELS = { VL: "VL", Lt: "LT", plain: "N", Dk: "DK", VD: "VD", Acc: "ACC" };
 const form = document.querySelector("#color-form");
@@ -97,10 +107,22 @@ function renderPalette() {
 }
 
 function renderReplacementColors() {
-  pushbyteSelect.innerHTML = REPLACEMENT_COLORS.map(
+  const regular = REPLACEMENT_COLORS.map(
     (name, index) => `<option value="${index + 1}">${name}</option>`
   ).join("");
+  const team = TEAM_COLOR_TARGETS.map(
+    ([name, target]) => `<option value="team:${target}">${name}</option>`
+  ).join("");
+  pushbyteSelect.innerHTML = `${regular}<optgroup label="EXPERIMENTAL TEAM COLORS">${team}</optgroup>`;
   pushbyteSelect.value = "1";
+}
+
+function selectedTeamColorName() {
+  return pushbyteSelect.value.startsWith("team:") ? pushbyteSelect.value.slice(5) : null;
+}
+
+function updateTargetReadout() {
+  pushbyteReadout.textContent = selectedTeamColorName() ? "experimental team color" : `color slot ${pushbyteSelect.value}`;
 }
 
 function currentColors() {
@@ -374,9 +396,7 @@ function installDropTarget(target, input, update) {
 installDropTarget(drop, fileInput, updateFile);
 installDropTarget(airDrop, airFileInput, updateAirFile);
 
-pushbyteSelect.addEventListener("change", () => {
-  pushbyteReadout.textContent = `color slot ${pushbyteSelect.value}`;
-});
+pushbyteSelect.addEventListener("change", updateTargetReadout);
 document.querySelector("#hue-shift").addEventListener("input", (event) => {
   if (!hueBase) hueBase = currentColors();
   const degrees = Number(event.target.value);
@@ -473,13 +493,15 @@ form.addEventListener("submit", async (event) => {
     await ensureBackendReady();
     status.textContent = "Building and verifying your color swap...";
     const colors = currentColors();
+    const teamColorName = selectedTeamColorName();
     const response = await requestColorSwap(
       JSON.stringify({
         filename: file.name,
         swfBase64: await readAsBase64(file),
         airFilename: airFile.name,
         airSwfBase64: await readAsBase64(airFile),
-        pushbyteIndex: Number(pushbyteSelect.value),
+        pushbyteIndex: teamColorName ? 1 : Number(pushbyteSelect.value),
+        teamColorName: teamColorName || undefined,
         colors
       })
     );
