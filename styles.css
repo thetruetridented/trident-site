@@ -318,12 +318,13 @@ body {
   align-self: end;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-end;
+  gap: 0;
   background: #202020;
   color: white;
   padding: 0 18px;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .rankings-toggle input {
@@ -333,10 +334,22 @@ body {
 }
 
 .rankings-toggle-text {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
   color: white;
   font-family: inherit;
   font-size: 24px;
   line-height: 1;
+  white-space: nowrap;
+  transition: max-width 160ms ease, opacity 120ms ease, margin-right 160ms ease;
+}
+
+.rankings-toggle:hover .rankings-toggle-text,
+.rankings-toggle:focus-within .rankings-toggle-text {
+  max-width: 160px;
+  margin-right: 16px;
+  opacity: 1;
 }
 
 .rankings-toggle-switch {
