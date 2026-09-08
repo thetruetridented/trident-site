@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#ff0000">
     <title>MORDEX rankings</title>
     <link rel="icon" type="image/png" href="../../../images/favicon.png">
-    <link rel="stylesheet" href="../../../styles.css?v=20260908-1">
+    <link rel="stylesheet" href="../../../styles.css?v=20260908-2">
   </head>
   <body class="theme-brawlhalla-rankings">
     <header class="site-header">
@@ -43,7 +43,7 @@
               <option>Loading legends</option>
             </select>
           </label>
-          <label for="region-select">
+          <label class="rankings-region" for="region-select">
             <span>REGION</span>
             <select id="region-select">
               <option value="US-E" selected>US-E</option>
@@ -58,6 +58,11 @@
               <option value="ALL">ALL</option>
             </select>
           </label>
+          <label class="rankings-toggle" for="show-pros-toggle">
+            <span class="rankings-toggle-text">SHOW PROS</span>
+            <input id="show-pros-toggle" type="checkbox">
+            <span class="rankings-toggle-switch" aria-hidden="true"></span>
+          </label>
         </form>
       </section>
 
@@ -70,6 +75,6 @@
       </section>
     </main>
 
-    <script src="../rankings.js?v=20260908-1"></script>
+    <script src="../rankings.js?v=20260908-2"></script>
   </body>
 </html>

@@ -6,6 +6,7 @@ const CONCURRENCY = 8;
 
 const legendSelect = document.getElementById("legend-select");
 const regionSelect = document.getElementById("region-select");
+const showProsToggle = document.getElementById("show-pros-toggle");
 const statusLine = document.getElementById("rankings-status");
 const rankingsBody = document.getElementById("rankings-body");
 
@@ -14,6 +15,7 @@ const PRO_PLAYER_IDS = new Set(["4077949", "20778713", "42206820", "71809945", "
 const CONTENT_CREATOR_PLAYER_IDS = new Set(["3666461", "42206820", "6193054", "24116692", "71960285", "26941318", "110282750"]);
 const SEMI_PRO_PLAYER_IDS = new Set(["97534882", "20849670", "84122951", "1546291", "71960285", "26941318", "40843260"]);
 let leaderboard = [];
+let currentRankingRows = [];
 let activeRequest = 0;
 let legendsById = new Map();
 
@@ -74,6 +76,14 @@ function playerTags(playerId) {
   }
 
   return tags;
+}
+
+function visibleRows(rows) {
+  if (showProsToggle?.checked) {
+    return rows;
+  }
+
+  return rows.filter((row) => !PRO_PLAYER_IDS.has(String(row.playerId)));
 }
 
 async function fetchJson(url) {
@@ -142,12 +152,15 @@ async function loadPlayerStats(playerId) {
 }
 
 function renderRows(rows) {
-  if (!rows.length) {
+  currentRankingRows = rows;
+  const filteredRows = visibleRows(rows);
+
+  if (!filteredRows.length) {
     rankingsBody.innerHTML = `<li class="rankings-empty">No legend results found in the scanned current leaderboard pages.</li>`;
     return;
   }
 
-  rankingsBody.innerHTML = rows
+  rankingsBody.innerHTML = filteredRows
     .map((row, index) => {
       const record = `${row.legendWins}-${Math.max(row.legendGames - row.legendWins, 0)}`;
       const tags = playerTags(row.playerId)
@@ -305,6 +318,7 @@ async function init() {
       renderLegendRankings();
     });
     regionSelect.addEventListener("change", renderLegendRankings);
+    showProsToggle?.addEventListener("change", () => renderRows(currentRankingRows));
     await renderLegendRankings();
   } catch (error) {
     legendSelect.innerHTML = `<option>API unavailable</option>`;
