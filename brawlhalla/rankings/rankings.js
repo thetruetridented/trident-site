@@ -14,6 +14,9 @@ const statsCache = new Map();
 const PRO_PLAYER_IDS = new Set(["4077949", "20778713", "42206820", "71809945", "6193054", "24116692", "110282750"]);
 const CONTENT_CREATOR_PLAYER_IDS = new Set(["3666461", "42206820", "6193054", "24116692", "71960285", "26941318", "110282750"]);
 const SEMI_PRO_PLAYER_IDS = new Set(["97534882", "20849670", "84122951", "1546291", "71960285", "26941318", "40843260"]);
+const FORCED_LEGEND_PLAYERS = [
+  { legendId: 52, playerId: 7140519 },
+];
 let leaderboard = [];
 let currentRankingRows = [];
 let activeRequest = 0;
@@ -151,6 +154,79 @@ async function loadPlayerStats(playerId) {
   return stats;
 }
 
+async function loadForcedLegendRows(legendId) {
+  const forcedPlayers = FORCED_LEGEND_PLAYERS.filter((entry) => Number(entry.legendId) === Number(legendId));
+  if (!forcedPlayers.length) {
+    return [];
+  }
+
+  const rows = await runPool(forcedPlayers, async (entry) => {
+    try {
+      const stats = await loadPlayerStats(entry.playerId);
+      const legend = (stats.legends || []).find((legendEntry) => Number(legendEntry.legend_id) === Number(legendId));
+
+      if (!legend || Number(legend.games || 0) <= 0) {
+        return null;
+      }
+
+      return {
+        playerId: entry.playerId,
+        name: stats.name || `Player ${entry.playerId}`,
+        rank: stats.global_rank,
+        rating: stats.rating,
+        tier: stats.tier,
+        region: stats.region,
+        legendRating: legend.rating,
+        legendPeak: legend.peak_rating,
+        legendGames: Number(legend.games || 0),
+        legendWins: Number(legend.wins || 0),
+        legendTier: legend.tier
+      };
+    } catch {
+      return null;
+    }
+  });
+
+  return rows.filter(Boolean);
+}
+
+async function includeForcedLegendRows(rows, legendId) {
+  const forcedRows = await loadForcedLegendRows(legendId);
+  if (!forcedRows.length) {
+    return rows;
+  }
+
+  const rowsById = new Map(rows.map((row) => [String(row.playerId), row]));
+  for (const forcedRow of forcedRows) {
+    rowsById.set(String(forcedRow.playerId), {
+      ...rowsById.get(String(forcedRow.playerId)),
+      ...forcedRow
+    });
+  }
+
+  return sortRankingRows([...rowsById.values()], {
+    alwaysIncludePlayerIds: forcedRows.map((row) => row.playerId)
+  });
+}
+
+function sortRankingRows(rows, { alwaysIncludePlayerIds = [] } = {}) {
+  const sortedRows = rows
+    .filter(Boolean)
+    .sort((a, b) => Number(b.legendRating || 0) - Number(a.legendRating || 0) || Number(b.rating || 0) - Number(a.rating || 0));
+  const visibleRows = sortedRows.slice(0, 50);
+  const visibleIds = new Set(visibleRows.map((row) => String(row.playerId)));
+
+  for (const playerId of alwaysIncludePlayerIds) {
+    const forcedRow = sortedRows.find((row) => String(row.playerId) === String(playerId));
+    if (forcedRow && !visibleIds.has(String(playerId))) {
+      visibleRows.push(forcedRow);
+      visibleIds.add(String(playerId));
+    }
+  }
+
+  return visibleRows;
+}
+
 function renderRows(rows) {
   currentRankingRows = rows;
   const filteredRows = visibleRows(rows);
@@ -203,7 +279,7 @@ async function renderLegendRankings() {
       return;
     }
 
-    renderRows(payload.rankings || []);
+    renderRows(await includeForcedLegendRows(payload.rankings || [], legendId));
     setStatus(`Showing ${payload.rankings?.length || 0} saved ${name} players from the top ${payload.scannedCount || SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
 
     if (payload.refreshing) {
@@ -214,7 +290,7 @@ async function renderLegendRankings() {
       }
 
       if (freshPayload.changed) {
-        renderRows(freshPayload.rankings || []);
+        renderRows(await includeForcedLegendRows(freshPayload.rankings || [], legendId));
         setStatus(`Updated ${name} rankings from the latest ${region} scan.`);
       } else {
         setStatus(`Showing saved ${name} rankings. No higher elo or spot changes found in the latest ${region} scan.`);
@@ -288,7 +364,7 @@ async function renderDirectLegendRankings({ requestId, legendId, name, region, n
       .sort((a, b) => Number(b.legendRating || 0) - Number(a.legendRating || 0) || Number(b.rating || 0) - Number(a.rating || 0))
       .slice(0, 50);
 
-    renderRows(filteredRows);
+    renderRows(await includeForcedLegendRows(filteredRows, legendId));
     setStatus(`Showing ${filteredRows.length} live ${name} players from the current top ${SCAN_PAGES * PAGE_SIZE} ${region} ranked 1v1 scan.`);
   } catch (error) {
     rankingsBody.innerHTML = `<li class="rankings-empty">Could not load rankings right now.</li>`;
