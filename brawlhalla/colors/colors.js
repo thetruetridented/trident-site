@@ -188,14 +188,20 @@ function filenameStem() {
     .slice(0, 80) || "trident-palette";
 }
 
-function downloadText(contents, extension, type) {
-  const blob = new Blob([contents], { type });
+function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `${filenameStem()}.${extension}`;
+  link.download = filename;
+  document.body.append(link);
   link.click();
-  URL.revokeObjectURL(url);
+  link.remove();
+  // Give browsers time to start consuming the download before releasing it.
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+function downloadText(contents, extension, type) {
+  downloadBlob(new Blob([contents], { type }), `${filenameStem()}.${extension}`);
 }
 
 function escapeXml(value) {
@@ -319,7 +325,7 @@ function updateAirFile(file) {
 
 async function checkBackend() {
   try {
-    const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
+    const response = await fetch(`${API_ROOT}/health`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error();
     backendReady = true;
   } catch {
@@ -334,7 +340,7 @@ async function ensureBackendReady() {
   status.textContent = "Waking the color maker backend...";
   status.className = "form-status visible";
   try {
-    const response = await fetch(`${API_ROOT}/health`, { cache: "no-store" });
+    const response = await fetch(`${API_ROOT}/health`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
     backendReady = response.ok;
   } catch {
     backendReady = false;
@@ -345,19 +351,21 @@ function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-async function requestColorSwap(payload) {
+async function requestColorSwap(payload, signal) {
   let lastError;
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
       const response = await fetch(`${API_ROOT}/api/colorswap`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: payload
+        body: payload,
+        signal
       });
       if (![502, 503, 504].includes(response.status) || attempt === 2) return response;
       lastError = new Error("The color maker backend is still waking up.");
     } catch (error) {
       lastError = error;
+      if (signal.aborted) throw new Error("The color maker took too long to respond. Please try again.");
       if (attempt === 2) break;
     }
     status.textContent = "Render is waking up. Retrying your color...";
@@ -475,6 +483,7 @@ document.querySelector("#export-palette-xml").addEventListener("click", () => {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (buildButton.disabled) return;
   const file = fileInput.files[0];
   const airFile = airFileInput.files[0];
   const missingFiles = [];
@@ -494,6 +503,7 @@ form.addEventListener("submit", async (event) => {
     status.textContent = "Building and verifying your color swap...";
     const colors = currentColors();
     const teamColorName = selectedTeamColorName();
+    const signal = AbortSignal.timeout(180000);
     const response = await requestColorSwap(
       JSON.stringify({
         filename: file.name,
@@ -503,19 +513,15 @@ form.addEventListener("submit", async (event) => {
         pushbyteIndex: teamColorName ? 1 : Number(pushbyteSelect.value),
         teamColorName: teamColorName || undefined,
         colors
-      })
+      }),
+      signal
     );
     if (!response.ok) {
       const payload = await response.json().catch(() => ({}));
       throw new Error(payload.error || "The backend could not build this file.");
     }
     const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "UI_MainMenu.swf";
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "UI_MainMenu.swf");
     status.textContent = "Done — patched and verified UI_MainMenu.swf downloaded.";
     status.className = "form-status visible success";
   } catch (error) {
