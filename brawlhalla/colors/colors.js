@@ -303,6 +303,7 @@ function updateBuildState() {
     fileIsValid(fileInput.files[0], "UI_MainMenu.swf") &&
     fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf");
   buildButton.dataset.filesReady = String(filesReady);
+  buildButton.disabled = !filesReady || buildButton.classList.contains("is-building");
 }
 
 function updateFile(file) {
@@ -528,7 +529,6 @@ form.addEventListener("submit", async (event) => {
     status.textContent = error.message;
     status.className = "form-status visible error";
   } finally {
-    buildButton.disabled = false;
     buildButton.classList.remove("is-building");
     updateFile(fileInput.files[0]);
     updateAirFile(airFileInput.files[0]);
