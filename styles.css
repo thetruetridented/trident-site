@@ -56,6 +56,12 @@
   --arrow-hover-filter: brightness(0) saturate(100%) invert(33%) sepia(96%) saturate(3447%) hue-rotate(210deg) brightness(102%) contrast(105%);
 }
 
+.theme-keybindsuppressor {
+  --accent: #ffffff;
+  --accent-shift: #9a9a9a;
+  --arrow-hover-filter: brightness(0) invert(1);
+}
+
 .theme-disguiser {
   --accent: #f5d04c;
   --accent-shift: #00e5ff;
@@ -1123,6 +1129,10 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+}
+
+.theme-keybindsuppressor #corebg {
+  filter: grayscale(1) brightness(0.48) contrast(1.12);
 }
 
 .hero-content {
