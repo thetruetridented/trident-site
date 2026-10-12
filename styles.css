@@ -1574,6 +1574,90 @@ body {
   filter: brightness(1.08);
 }
 
+.changelog-dock {
+  margin: 72px -7vw 0;
+  background: black;
+  color: white;
+  overflow: hidden;
+}
+
+.changelog-tab {
+  padding: 16px 7vw;
+  color: var(--accent);
+  font-size: 28px;
+  line-height: 1;
+  cursor: default;
+}
+
+.changelog-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease;
+}
+
+.changelog-dock:hover .changelog-panel,
+.changelog-dock:focus-within .changelog-panel {
+  max-height: 260px;
+}
+
+.changelog-track {
+  display: flex;
+  width: max-content;
+  padding: 0 7vw 24px;
+  gap: 20px;
+  animation: changelog-slide 36s linear infinite;
+  animation-play-state: paused;
+}
+
+.changelog-dock:hover .changelog-track,
+.changelog-dock:focus-within .changelog-track {
+  animation-play-state: running;
+}
+
+.changelog-entry {
+  width: min(420px, 76vw);
+  min-height: 168px;
+  padding: 20px;
+  background: white;
+  color: black;
+}
+
+.changelog-entry h3,
+.changelog-entry p {
+  margin: 0;
+}
+
+.changelog-entry h3 {
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.changelog-entry p {
+  margin-top: 12px;
+  color: rgba(0, 0, 0, 0.62);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.changelog-entry .changelog-meta {
+  margin-top: 0;
+  color: black;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@keyframes changelog-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .download-link:disabled,
 .download-card-disabled .download-link {
   border-color: rgba(255, 255, 255, 0.32);
