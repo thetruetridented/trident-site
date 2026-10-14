@@ -106,11 +106,17 @@
             <p class="workbench-label">OUTPUT</p>
             <h2>EXPORT</h2>
             <p>The files must come from the same game update. Both originals stay untouched; the finished download is named UI_MainMenu.swf.</p>
+            <p id="catalog-status" role="status">Loading color indexes...</p>
+            <button id="retry-catalog" type="button" hidden>Retry color catalog</button>
           </div>
           <div class="build-controls">
+            <label class="pushbyte-control" for="game-build">
+              <span>SOURCE GAME BUILD</span>
+              <select id="game-build" disabled></select>
+            </label>
             <label class="pushbyte-control" for="pushbyte-index">
               <span>COLOR TO REPLACE</span>
-              <select id="pushbyte-index" name="pushbyteIndex"></select>
+              <select id="pushbyte-index" name="pushbyteIndex" disabled></select>
             </label>
             <button id="build-button" class="build-button" type="submit" disabled>
               <span>Create color</span>
@@ -133,6 +139,6 @@
       </dialog>
     </main>
 
-    <script src="colors.js?v=20260921-1"></script>
+    <script src="colors.js?v=20261014-1"></script>
   </body>
 </html>

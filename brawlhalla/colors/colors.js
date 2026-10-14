@@ -29,16 +29,9 @@ const PCODE_SLOTS = {
 };
 const XML_FIELDS = Object.fromEntries(COLOR_KEYS.map((key) => [key, `${key}_Swap`]));
 
-const REPLACEMENT_COLORS = [
-  "Blue", "Yellow", "Green", "Brown", "Purple", "Orange", "Cyan", "Sunset", "Grey", "Pink", "Red",
-  "Lovestruck", "Heartfelt", "Lucky Clover", "Clover Patch", "Verdant Bloom", "Hibiscus", "Charged OG",
-  "Raven's Honor", "Bifrost", "Art Deco", "Blood Moon", "Heatwave", "Pool Party", "Home Team",
-  "Home Team Reunion", "Haunting", "Ghoulish", "Gala", "Winter Holiday", "Holly Jolly", "Soul Fire",
-  "Synthwave", "Frozen Forest", "Coat of Lions", "Starlight", "Willow Leaves", "Pact of Poison",
-  "Darkheart", "Armageddon", "Kira-Kira", "Ancient Curse", "Neon Hanafuda", "Dragonfire", "White", "Black",
-  "Skyforged", "Goldforged", "Crystalforged", "RGB", "CMYK", "Blacklight", "Community Colors", "Community Colors v2", "Esports v1",
-  "Esports v2", "Esports v3", "Esports v4", "Esports v5", "Esports v6", "Esports v7", "Guild Colors"
-];
+let catalogDocument = null;
+let activeCatalog = null;
+let replacementColors = [];
 const TEAM_COLOR_TARGETS = [
   ["Red Team · Player 1", "TeamRed1"], ["Red Team · Player 2", "TeamRed2"],
   ["Red Team · Player 3", "TeamRed3"], ["Red Team · Player 4", "TeamRed4"],
@@ -107,22 +100,62 @@ function renderPalette() {
 }
 
 function renderReplacementColors() {
-  const regular = REPLACEMENT_COLORS.map(
-    (name, index) => `<option value="${index + 1}">${name}</option>`
-  ).join("");
-  const team = TEAM_COLOR_TARGETS.map(
-    ([name, target]) => `<option value="team:${target}">${name}</option>`
-  ).join("");
-  pushbyteSelect.innerHTML = `${regular}<optgroup label="EXPERIMENTAL TEAM COLORS">${team}</optgroup>`;
-  pushbyteSelect.value = "1";
+  const previous = pushbyteSelect.value;
+  pushbyteSelect.replaceChildren();
+  for (const color of replacementColors) pushbyteSelect.add(new Option(color.name, color.id));
+  const team = document.createElement("optgroup");
+  team.label = "EXPERIMENTAL TEAM COLORS";
+  for (const [name, target] of TEAM_COLOR_TARGETS) team.append(new Option(name, `team:${target}`));
+  if (activeCatalog) pushbyteSelect.append(team);
+  if ([...pushbyteSelect.options].some(option => option.value === previous)) pushbyteSelect.value = previous;
+  updateTargetReadout();
 }
+
+function selectGameBuild() {
+  const buildId = document.querySelector("#game-build").value;
+  const build = catalogDocument.builds.find(build => build.steamBuildIds.includes(buildId));
+  const colors = build?.colors || (catalogDocument.baselineSteamBuildIds.includes(buildId) ? catalogDocument.baseline : null);
+  if (!colors) throw new Error("Color indexes are unavailable for this game build.");
+  replacementColors = colors;
+  activeCatalog = { revision: catalogDocument.revision, steamBuildId: buildId };
+  renderReplacementColors();
+  updateBuildState();
+}
+
+async function loadCatalog() {
+  const retry = document.querySelector("#retry-catalog");
+  retry.hidden = true;
+  try {
+    const response = await fetch(`${API_ROOT}/api/colorswap/catalog`, { cache: "no-store", signal: AbortSignal.timeout(60000) });
+    if (!response.ok) throw new Error("Color catalog could not be loaded.");
+    const documentData = await response.json();
+    if (documentData.schemaVersion !== 1 || !Array.isArray(documentData.builds) || !Array.isArray(documentData.baselineSteamBuildIds)) throw new Error("Invalid color catalog.");
+    const builds = [...documentData.baselineSteamBuildIds, ...documentData.builds.flatMap(build => build.steamBuildIds)].sort((a, b) => Number(b) - Number(a));
+    if (!builds.length) throw new Error("No game builds have published color indexes.");
+    catalogDocument = documentData;
+    const select = document.querySelector("#game-build");
+    select.replaceChildren(...builds.map((id, index) => new Option(`${index === 0 ? "Latest — " : ""}Build ${id}`, id)));
+    selectGameBuild();
+    select.disabled = false;
+    pushbyteSelect.disabled = false;
+    document.querySelector("#catalog-status").textContent = "Colors loaded. Select the game build your source files came from.";
+  } catch (error) {
+    activeCatalog = null;
+    document.querySelector("#catalog-status").textContent = "Unable to load color indexes. Retry when the server is available.";
+    retry.hidden = false;
+    updateBuildState();
+  }
+}
+
+document.querySelector("#game-build").addEventListener("change", selectGameBuild);
+document.querySelector("#retry-catalog").addEventListener("click", loadCatalog);
 
 function selectedTeamColorName() {
   return pushbyteSelect.value.startsWith("team:") ? pushbyteSelect.value.slice(5) : null;
 }
 
 function updateTargetReadout() {
-  pushbyteReadout.textContent = selectedTeamColorName() ? "experimental team color" : `color slot ${pushbyteSelect.value}`;
+  pushbyteReadout.textContent = selectedTeamColorName() ? "experimental team color" : `color slot ${replacementColors.find(color => color.id === pushbyteSelect.value)?.index ?? "—"}`;
 }
 
 function currentColors() {
@@ -265,7 +298,7 @@ async function importSwfPalette(file) {
   if (!Array.isArray(payload.palettes) || !payload.palettes.length) throw new Error("No custom colors were detected in this SWF.");
   const selected = payload.palettes.length === 1 ? payload.palettes[0] : await chooseRecoveredPalette(payload.palettes);
   if (!selected) throw new Error("SWF import cancelled.");
-  const slotName = REPLACEMENT_COLORS[selected.pushbyteIndex - 1] || `Slot ${selected.pushbyteIndex}`;
+  const slotName = replacementColors.find(color => color.index === selected.pushbyteIndex)?.name || `Slot ${selected.pushbyteIndex}`;
   return { name: `Recovered ${slotName}`, colors: selected.colors };
 }
 
@@ -280,7 +313,7 @@ function chooseRecoveredPalette(palettes) {
       resolve(palette);
     };
     palettes.forEach((palette) => {
-      const slotName = REPLACEMENT_COLORS[palette.pushbyteIndex - 1] || `Slot ${palette.pushbyteIndex}`;
+      const slotName = replacementColors.find(color => color.index === palette.pushbyteIndex)?.name || `Slot ${palette.pushbyteIndex}`;
       const button = document.createElement("button");
       button.type = "button";
       button.className = "swf-palette-choice";
@@ -303,7 +336,7 @@ function updateBuildState() {
     fileIsValid(fileInput.files[0], "UI_MainMenu.swf") &&
     fileIsValid(airFileInput.files[0], "BrawlhallaAir.swf");
   buildButton.dataset.filesReady = String(filesReady);
-  buildButton.disabled = !filesReady || buildButton.classList.contains("is-building");
+  buildButton.disabled = !filesReady || !activeCatalog || buildButton.classList.contains("is-building");
 }
 
 function updateFile(file) {
@@ -497,6 +530,8 @@ form.addEventListener("submit", async (event) => {
   }
   buildButton.disabled = true;
   buildButton.classList.add("is-building");
+  document.querySelector("#game-build").disabled = true;
+  pushbyteSelect.disabled = true;
   status.textContent = "Building and verifying your color swap...";
   status.className = "form-status visible";
   try {
@@ -511,7 +546,10 @@ form.addEventListener("submit", async (event) => {
         swfBase64: await readAsBase64(file),
         airFilename: airFile.name,
         airSwfBase64: await readAsBase64(airFile),
-        pushbyteIndex: teamColorName ? 1 : Number(pushbyteSelect.value),
+        catalogVersion: 1,
+        catalogRevision: activeCatalog.revision,
+        steamBuildId: activeCatalog.steamBuildId,
+        colorId: teamColorName ? undefined : pushbyteSelect.value,
         teamColorName: teamColorName || undefined,
         colors
       }),
@@ -530,6 +568,8 @@ form.addEventListener("submit", async (event) => {
     status.className = "form-status visible error";
   } finally {
     buildButton.classList.remove("is-building");
+    document.querySelector("#game-build").disabled = false;
+    pushbyteSelect.disabled = false;
     updateFile(fileInput.files[0]);
     updateAirFile(airFileInput.files[0]);
   }
@@ -539,3 +579,4 @@ renderPalette();
 renderReplacementColors();
 resetHueBaseline();
 checkBackend();
+loadCatalog();
